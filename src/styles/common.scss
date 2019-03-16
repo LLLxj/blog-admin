@@ -1,0 +1,39 @@
+// 分页
+.x-pagination {
+  width: 100%;
+  height: 100%;
+  margin: 20px auto;
+  & div {
+    width: auto;
+    float: right;
+  }
+}
+// 操作wrap
+.operate-wrapper {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  margin: 20px auto;
+  border-radius: 5px;
+  // background: #8c868636;
+  box-shadow: 0px 2px 5px #736c6c;
+}
+
+.operate-wrapper>.el-input {
+  max-width: 200px;
+}
+
+@mixin subForm {
+  width: 50%;
+  height: 50%;
+  display: block;
+  float: left;
+  margin: 20px auto;
+}
+
+.x-form {
+  @include subForm;
+  & .line {
+    text-align: center;
+  }
+}
