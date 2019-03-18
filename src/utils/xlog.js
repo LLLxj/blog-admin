@@ -9,7 +9,7 @@
 export default function install(Vue, options) {
   Vue.prototype.xlog = function(str) {
     if (process.env.NODE_ENV === 'development') {
-      console.log(str)
+      // console.log(str)
     } else {
       // nothing
     }
