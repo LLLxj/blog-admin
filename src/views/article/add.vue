@@ -1,99 +1,68 @@
 <template>
   <div class="app-container">
     <div class="x-form">
-        <el-form 
-        width=100%
-        v-loading = "isLoading"
-        element-loading-spinner="el-icon-loading" 
-        :model="addForm" :rules="rules" 
-        ref="addForm" label-width="100px" 
+      <el-form  width=100% v-loading = "isLoading" element-loading-spinner="el-icon-loading"  :model="dataForm" :rules="rules" ref="dataForm" label-width="100px" 
         class="demo-addForm">
-            <el-form-item label="项目名称" prop="project_name">
-                <el-input v-model="addForm.project_name" placeholder="请输入项目名称"></el-input>
-            </el-form-item>
-            <el-form-item label="项目简介" prop="des">
-                <el-input
-                type="textarea"
-                :rows="2"
-                placeholder="请输入项目简介"
-                v-model="addForm.des">
-                </el-input>
-            </el-form-item>
-            <el-form-item label="项目标签" prop="tag">
-                <el-select v-model="addForm.tag" placeholder="请选择项目标签">
-                    <el-option label="标签1" value="1"></el-option>
-                    <el-option label="标签2" value="2"></el-option>
-                    <el-option label="标签3" value="3"></el-option>
-                    <el-option label="标签4" value="4"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="项目类型" prop="type">
-                <el-select v-model="addForm.tag" placeholder="请选择项目类型">
-                    <el-option label="类型1" value="1"></el-option>
-                    <el-option label="类型2" value="2"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="项目网址" prop="web">
-                <el-input v-model="addForm.web" placeholder="请输入项目网址"></el-input>
-            </el-form-item>
-            <el-form-item label="地区" prop="area_id">
-                <el-select v-model="addForm.area_id" placeholder="请选择地区">
-                    <el-option label="地区1" value="1"></el-option>
-                    <el-option label="地区2" value="2"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="团队" prop="team_id">
-                <el-select v-model="addForm.area_id" placeholder="请选择团队">
-                    <el-option label="team-1" value="1"></el-option>
-                    <el-option label="team-2" value="2"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="详细">
-              <div class="edit_container">
-              <quill-editor v-model="infoForm.a_content"
-                      ref="myQuillEditor"
-                      class="editer"
-                      :options="editorOption" @ready="onEditorReady($event)">
-              </quill-editor>
-              </div>
-            </el-form-item>
+        <el-form-item label="文章名称" prop="title">
+          <el-input v-model="dataForm.title" placeholder="请输入文章名称"></el-input>
+        </el-form-item>
+        <el-form-item label="选择分类" prop="title">
+          <selectCategory v-model="dataForm.categoryId" />
+        </el-form-item>
+        
+        <el-form-item label="文章内容" prop="content">
+          <el-input v-model="dataForm.content" type="textarea" :rows="2" placeholder="请输入文章内容" >
+          </el-input>
+        </el-form-item>
+        <!-- <el-form-item label="详细">
+          <div class="edit_container">
+          <quill-editor v-model="infoForm.a_content"
+                  ref="myQuillEditor"
+                  class="editer"
+                  :options="editorOption" @ready="onEditorReady($event)">
+          </quill-editor>
+          </div>
+        </el-form-item> -->
 
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('addForm','add')" v-if="submitbtnStatus">立即创建</el-button>
-                <el-button type="primary" @click="submitForm('addForm','update')" v-else>保存修改</el-button>
-            </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm()">立即创建</el-button>
+          </el-form-item>
         </el-form>
     </div>
   </div>
 </template>
 
 <script>
-// import { getList, delProject } from '@/api/project'
+import { articleSave } from '@/api/article'
 import { quillEditor } from 'vue-quill-editor'
+import selectCategory from '@/common-select/select-category'
 
 export default {
   name: 'addCompany',
   data() {
     return {
-      addForm: {},
+      dataForm: {
+        title: '',
+        content: '',
+        categoryId: ''
+      },
       infoForm: {
         a_title: '',
         a_source: '',
         a_content:'',
       },
       editorOption: {},
-      submitbtnStatus: true,
       isLoading: false,
       // 表单验证规则
       rules: {
         title: [
-          { required: true, message: '必填项', trigger: 'change' }
+          { required: true, message: '必填项', trigger: 'blur' }
         ]
       }
     }
   },
   components: {
-    quillEditor
+    quillEditor, selectCategory
   },
   created() {
     // 判断是新增还是修改
@@ -105,6 +74,9 @@ export default {
       this.submitbtnStatus = true
       this.xlog('add')
     }
+     this.$nextTick(() => {
+      this.$refs['dataForm'].resetFields()
+    })
   },
   computed: {
     editor() {
@@ -114,6 +86,46 @@ export default {
   methods: {
     onEditorReady(editor) {
 
+    },
+    resetDataForm () {
+      this.dataForm = {
+        title: '',
+        content: '',
+        categoryId: ''
+      }
+    },
+    submitForm () {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          articleSave({
+            'title': this.dataForm.title,
+            'content': this.dataForm.content,
+            'categoryId': this.dataForm.categoryId
+          }).then(res => {
+            if(res.data && res.data.code === 0){
+              this.$message({
+                message: '新增成功',
+                type: 'success',
+                duration: 3 * 1000,
+                onClose: () => {
+                  this.resetDataForm()
+                  this.$router.push({
+                    name: 'article'
+                  })
+                }
+              })
+            } else {
+              this.$message({
+                message: res.data.msg,
+                type: 'error',
+                duration: 3 * 1000
+              })
+              this.resetDataForm()
+            }
+          })
+        }
+      })
+     
     }
   }
 }

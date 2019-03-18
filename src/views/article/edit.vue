@@ -3,11 +3,11 @@
     <div class="x-form">
       <el-form  width=100% v-loading = "isLoading" element-loading-spinner="el-icon-loading"  :model="dataForm" :rules="rules"  ref="dataForm" label-width="100px" 
         class="demo-addForm">
-        <el-form-item label="项目名称" prop="title">
-          <el-input v-model="dataForm.title" placeholder="请输入项目名称"></el-input>
+        <el-form-item label="文章名称" prop="title">
+          <el-input v-model="dataForm.title" placeholder="请输入文章名称"></el-input>
         </el-form-item>
-        <el-form-item label="项目简介" prop="content">
-          <el-input v-model="dataForm.content" type="textarea" :rows="2" placeholder="请输入项目简介" >
+        <el-form-item label="文章内容" prop="content">
+          <el-input v-model="dataForm.content" type="textarea" :rows="2" placeholder="请输入文章内容" >
           </el-input>
         </el-form-item>
         
@@ -33,6 +33,7 @@
 <script>
 import { articleInfo, articleUpdate } from '@/api/article'
 import { quillEditor } from 'vue-quill-editor'
+import ScrollPane from '@/components/ScrollPane'
 
 export default {
   name: 'addArticle',
@@ -61,18 +62,20 @@ export default {
   components: {
     quillEditor
   },
+  computed: {
+    visitedViews() {
+      return this.$store.state.tagsView.visitedViews
+    }
+  },
   created() {
     const rowData = this.$route.query.id
-    articleInfo({
-      'id': rowData
-    }).then(res => {
+    articleInfo(rowData).then(res => {
       if(res.data && res.data.code === 0) {
         this.dataForm.title = res.data.data.title
         this.dataForm.content = res.data.data.content
         this.dataForm.id = res.data.data.id
       }
-    })
-    
+    })  
   },
   computed: {
     editor() {
@@ -95,7 +98,12 @@ export default {
               this.$message({
                 message: '更新成功',
                 type: 'success',
-                duration: 3 * 1000
+                duration: 3 * 1000,
+                onClose: () => {
+                  this.$router.push({
+                    name: 'article'
+                  })
+                }
               })
             } else {
               this.$message({

@@ -4,7 +4,7 @@
       <router-link  to="add" style="margin-right:30px">
         <a class="addNew">
             <el-button type="success">
-            新增发布
+            新增文章
             </el-button>
         </a>
       </router-link>
@@ -23,12 +23,14 @@
       </el-table-column>
       <el-table-column label="内容" prop="content" align="center" header-align="center">
       </el-table-column>
-      <el-table-column align="center" prop="create_time" label="创建时间" width="200" :formatter="dateFormatter">
+      <el-table-column label="分类" prop="category_name" header-align="center" align="center" width="150">
+      </el-table-column>
+      <el-table-column label="创建时间" align="center" prop="create_time" width="200" :formatter="dateFormatter">
       </el-table-column>
       <el-table-column label="操作" width="250" align="center" header-align="center">
         <template slot-scope="scope">
           <el-button size="mini" @click.stop="handleEdit(scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click.stop="handleDel(scope.row)">删除</el-button>
+          <el-button size="mini" type="danger" @click.stop="handleDel(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -49,7 +51,7 @@
 </template>
 
 <script>
-import { articleList } from '@/api/article'
+import { articleList, articleDelete } from '@/api/article'
  import { dateSubstring } from '@/utils/index'
 
 export default {
@@ -112,50 +114,27 @@ export default {
       })
     },
     // 删除
-    handleDel(row) {
-      this.$confirm('此操作不可逆，确定删除?', '提示', {
+    handleDel(id) {
+      this.$confirm(`确定删除?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        const postData = {
-          id: row.id
-        }
-        this.isLoading = true
-        delProject(postData)
-          .then(res => {
-            this.isLoading = false
-            if (res.data.status.Code === 200) {
-              this.$message({
-                message: '操作成功',
-                type: 'success',
-                duration: 5 * 1000
-              })
-              // 重载
-              this.getList(this.searchData)
-            } else {
-              this.$message({
-                message: res.data.status.Msg,
-                type: 'error',
-                duration: 5 * 1000
-              })
-            }
-          })
-          .catch(err => {
-            this.isLoading = false
+        articleDelete(id).then(res => {
+          if(res.data && res.data.code === 0){
             this.$message({
-              message: '请求接口失败！',
-              type: 'error',
-              duration: 5 * 1000
+              message: '操作成功',
+              type: 'success',
+              duration: 3000,
+              onClose: () => {
+                this.getDataList()
+              }
             })
-            console.log(err)
-          })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消删除'
+          }else{
+            this.$message.error(res.data.msg)
+          }
         })
-      })
+      }).catch(() => {})
     },
     // 搜索
     search() {
