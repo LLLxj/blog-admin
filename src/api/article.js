@@ -8,11 +8,18 @@ export function articleList(query) {
   })
 }
 
-export function articleInfo(query) {
+export function articleInfo(data) {
   return request({
-    url: '/article/info',
+    url: '/article/info/' + data,
     method: 'get',
-    params: query
+  })
+}
+
+export function articleSave(data) {
+  return request({
+    url: '/article/save',
+    method: 'post',
+    data
   })
 }
 
@@ -23,4 +30,12 @@ export function articleUpdate(data) {
     data
   })
 }
+
+export function articleDelete(data) {
+  return request({
+    url: '/article/delete/' + data,
+    method: 'get',
+  })
+}
+
 
