@@ -33,7 +33,6 @@
 <script>
 import { articleInfo, articleUpdate } from '@/api/article'
 import { quillEditor } from 'vue-quill-editor'
-import ScrollPane from '@/components/ScrollPane'
 
 export default {
   name: 'addArticle',
@@ -61,11 +60,6 @@ export default {
   },
   components: {
     quillEditor
-  },
-  computed: {
-    visitedViews() {
-      return this.$store.state.tagsView.visitedViews
-    }
   },
   created() {
     const rowData = this.$route.query.id

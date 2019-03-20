@@ -8,7 +8,7 @@
             </el-button>
         </a>
       </router-link>
-      <el-input clearable v-model="searchData.articleName" placeholder="搜索条件">
+      <el-input clearable v-model="searchData.title" placeholder="搜索条件">
       </el-input>
       <el-button @click.stop="search()" type="primary">搜索</el-button>
       <el-button @click.stop="resetSearch()" type="danger">置空条件</el-button>
@@ -62,7 +62,8 @@ export default {
       listLoading: true,
       // 搜索条件
       searchData: {
-        articleName: ''
+        title: '',
+        content: ''
       },
       //  分页参数
       pageSizes: [10, 20, 30, 40],
@@ -138,7 +139,7 @@ export default {
     },
     // 搜索
     search() {
-      this.searchData.page = 1
+      this.searchData.currentPage = 1
       this.getDataList(this.searchData)
     },
     // 置空搜索
@@ -155,7 +156,7 @@ export default {
     },
     handleCurrentChange(row) {
     // 当前页改变
-      this.searchData.page = row
+      this.searchData.currentPage = row
       this.getDataList(this.searchData)
     },
     // 分页end
