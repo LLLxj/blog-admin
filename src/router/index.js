@@ -327,7 +327,7 @@ const asyncRouterMap = [
     children: [
       {
         path: 'list',
-        name: 'article',
+        name: 'articleList',
         component: () => import('@/views/article/index'),
         meta: { title: '文章列表' }
       },
@@ -341,7 +341,7 @@ const asyncRouterMap = [
         path: 'edit',
         name: 'editArticle',
         hidden: true,
-        component: () => import('@/views/article/edit'),
+        component: () => import('@/views/article/add'),
         meta: { title: '编辑文章' }
       }
     ]
