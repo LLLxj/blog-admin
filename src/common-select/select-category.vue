@@ -1,7 +1,7 @@
 <template>
   <el-select v-loading="dataListLoading" v-model="currentValue" :clearable="temp_clearable" placeholder="选择分类" @change="selectChange">
     <el-option v-for="item in dataList" :key="item.id"
-      :label="item.category_name"
+      :label="item.name"
       :value="item.id">
     </el-option>
   </el-select>
@@ -52,7 +52,7 @@
         this.dataListLoading = true
         categoryList().then(res => {
           if(res.data && res.data.code === 0){
-            this.dataList = res.data.data.list
+            this.dataList = res.data.data
           }else{
             this.dataList = []
           }
