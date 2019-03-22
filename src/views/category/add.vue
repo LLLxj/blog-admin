@@ -3,8 +3,8 @@
     <div class="x-form">
       <el-form  width=100% v-loading = "isLoading" element-loading-spinner="el-icon-loading"  :model="dataForm" :rules="rules"  ref="dataForm" label-width="100px" 
         class="demo-addForm">
-        <el-form-item label="分类名称" prop="categoryName">
-          <el-input v-model="dataForm.categoryName" placeholder="请输入分类名称"></el-input>
+        <el-form-item label="分类名称" prop="name">
+          <el-input v-model="dataForm.name" placeholder="请输入分类名称"></el-input>
         </el-form-item>
 
         <el-form-item label="排序" prop="order">
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { addCategory } from '@/api/category'
+import { addCategory, categoryInfo } from '@/api/category'
 import { quillEditor } from 'vue-quill-editor'
 
 export default {
@@ -44,7 +44,8 @@ export default {
   data() {
     return {
       dataForm: {
-        categoryName: '',
+        id: '',
+        name: '',
         order: '',
         // catBac: ''
       },
@@ -59,8 +60,8 @@ export default {
       isLoading: false,
       // 表单验证规则
       rules: {
-        title: [
-          { required: true, message: '必填项', trigger: 'change' }
+        name: [
+          { required: true, message: '必填项', trigger: 'blur' }
         ]
       }
     }
@@ -70,14 +71,16 @@ export default {
   },
   created() {
     // 判断是新增还是修改
-    const rowData = this.$route.query.id ? JSON.parse(this.$route.query) : ''
+    const rowData = this.$route.query.id || 0
     if (rowData) {
       this.submitbtnStatus = false
-      this.xlog('update')
+      this.setData(rowData)
     } else {
       this.submitbtnStatus = true
-      this.xlog('add')
     }
+    this.$nextTick(() => {
+      this.$refs['dataForm'].resetFields()
+    })
   },
   computed: {
     editor() {
@@ -87,6 +90,13 @@ export default {
   methods: {
     onEditorReady(editor) {
 
+    },
+    setData(data) {
+      categoryInfo(data).then(res => {
+        if(res.data && res.data.code === 0) {
+          this.dataForm = res.data.data
+        }
+      })
     },
     handleChange (data) {
       console.log(data)
@@ -110,20 +120,27 @@ export default {
     submitForm () {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          addCategory({
-            'categoryName': this.dataForm.categoryName,
-            'order': this.dataForm.order
-          }).then(res => {
-            if(res.data && res.data.code === 0) {
-              this.$message({
-                message: '操作成功',
-                type: 'success',
-                duration: 3 * 1000
-              })
-            } else {
-              this.$message.error(res.data.msg)
-            }
-          })
+          if (this.submitbtnStatus) {
+            addCategory(this.dataForm).then(res => {
+              if(res.data && res.data.code === 0) {
+                this.$message({
+                  message: '操作成功',
+                  type: 'success',
+                  duration: 3 * 1000,
+                  onClose: () => {
+                    this.$router.push({
+                      name: 'categoryList'
+                    })
+                  }
+                })
+              } else {
+                this.$message.error(res.data.msg)
+              }
+            }).catch(err => {
+              console.log(err)
+            })
+          }
+          
         }
       })
     }
