@@ -8,9 +8,16 @@ export function categoryList(query) {
   })
 }
 
+export function categoryInfo(data) {
+  return request({
+    url: '/category/info/' + data,
+    method: 'get',
+  })
+}
+
 export function addCategory(data) {
   return request({
-    url: '/category/add',
+    url: '/category/save',
     method: 'post',
     data
   })
