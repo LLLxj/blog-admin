@@ -54,8 +54,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: 'index.html',
       inject: true,
-      favicon: resolve('favicon.ico'),
-      title: 'vue-element-admin'
+      favicon: resolve('index.ico'),
+      title: '博客后台'
     }),
   ]
 })
