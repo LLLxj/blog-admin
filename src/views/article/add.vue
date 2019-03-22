@@ -6,8 +6,8 @@
         <el-form-item label="文章名称" prop="title">
           <el-input v-model="dataForm.title" placeholder="请输入文章名称"></el-input>
         </el-form-item>
-        <el-form-item label="选择分类" prop="title">
-          <selectCategory v-model="dataForm.categoryId" />
+        <el-form-item label="选择分类" prop="category_id">
+          <selectCategory v-model="dataForm.category_id" />
         </el-form-item>
         
         <el-form-item label="文章内容" prop="content">
@@ -25,7 +25,8 @@
         </el-form-item> -->
 
           <el-form-item>
-            <el-button type="primary" @click="submitForm()">立即创建</el-button>
+            <el-button type="primary" @click="submitForm()" v-if="submitbtnStatus">立即创建</el-button>
+            <el-button type="primary" @click="submitForm()" v-else>保存修改</el-button>
           </el-form-item>
         </el-form>
     </div>
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-import { articleSave } from '@/api/article'
+import { articleSave, articleInfo, articleUpdate  } from '@/api/article'
 import { quillEditor } from 'vue-quill-editor'
 import selectCategory from '@/common-select/select-category'
 
@@ -42,9 +43,10 @@ export default {
   data() {
     return {
       dataForm: {
+        id: '',
         title: '',
         content: '',
-        categoryId: ''
+        category_id: ''
       },
       infoForm: {
         a_title: '',
@@ -66,15 +68,14 @@ export default {
   },
   created() {
     // 判断是新增还是修改
-    const rowData = this.$route.query.id ? JSON.parse(this.$route.query) : ''
+    const rowData = this.$route.query.id || 0
     if (rowData) {
       this.submitbtnStatus = false
-      this.xlog('update')
+      this.setData(rowData)
     } else {
       this.submitbtnStatus = true
-      this.xlog('add')
     }
-     this.$nextTick(() => {
+    this.$nextTick(() => {
       this.$refs['dataForm'].resetFields()
     })
   },
@@ -87,6 +88,13 @@ export default {
     onEditorReady(editor) {
 
     },
+    setData (data) {
+      articleInfo(data).then(res => {
+        if(res.data && res.data.code === 0) {
+          this.dataForm = res.data.data
+        }
+      }) 
+    },
     resetDataForm () {
       this.dataForm = {
         title: '',
@@ -97,32 +105,53 @@ export default {
     submitForm () {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          articleSave({
-            'title': this.dataForm.title,
-            'content': this.dataForm.content,
-            'categoryId': this.dataForm.categoryId
-          }).then(res => {
-            if(res.data && res.data.code === 0){
-              this.$message({
-                message: '新增成功',
-                type: 'success',
-                duration: 3 * 1000,
-                onClose: () => {
-                  this.resetDataForm()
-                  this.$router.push({
-                    name: 'article'
-                  })
-                }
-              })
-            } else {
-              this.$message({
-                message: res.data.msg,
-                type: 'error',
-                duration: 3 * 1000
-              })
-              this.resetDataForm()
-            }
-          })
+          if(this.submitbtnStatus){
+            articleSave(this.dataForm).then(res => {
+              if(res.data && res.data.code === 0){
+                this.$message({
+                  message: '新增成功',
+                  type: 'success',
+                  duration: 3 * 1000,
+                  onClose: () => {
+                    this.$router.push({
+                      name: 'articleList'
+                    })
+                  }
+                })
+              } else {
+                this.$message({
+                  message: res.data.msg,
+                  type: 'error',
+                  duration: 3 * 1000
+                })
+                this.resetDataForm()
+              }
+            }).catch(err => {
+              console.log(err)
+            })
+          } else {
+             articleUpdate(this.dataForm).then(res => {
+              if(res.data && res.data.code === 0) {
+                this.$message({
+                  message: '更新成功',
+                  type: 'success',
+                  duration: 3 * 1000,
+                  onClose: () => {
+                    this.$router.push({
+                      name: 'articleList'
+                    })
+                  }
+                })
+              } else {
+                this.$message({
+                  message: res.data.msg,
+                  type: 'error',
+                  duration: 3 * 1000
+                })
+              }
+            })
+          }
+          
         }
       })
      

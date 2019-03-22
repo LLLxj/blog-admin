@@ -52,7 +52,7 @@
 
 <script>
 import { articleList, articleDelete } from '@/api/article'
- import { dateSubstring } from '@/utils/index'
+import { dateSubstring } from '@/utils/index'
 
 export default {
   name: 'projectList',
@@ -72,7 +72,13 @@ export default {
       totalNum: 100
     }
   },
-  created() {
+  // beforeCreate () {
+  //   this.getDataList()
+  // },
+  // activated () {
+  //   this.getDataList()
+  // },
+  created () {
     this.getDataList()
   },
   methods: {
@@ -82,11 +88,11 @@ export default {
       postData.pageSize = 10
       this.listLoading = true
       articleList(postData).then(res => {
-        if (res.data.code === 0) {
+        if (res.data && res.data.code === 0) {
           // 处理数据
           this.listLoading = false
-          this.list = res.data.data.result
-          this.totalNum = res.data.data.totalNum
+          this.list = res.data.data
+          this.totalNum = res.data.totalNum
         } else {
           this.listLoading = false
           this.$message({
