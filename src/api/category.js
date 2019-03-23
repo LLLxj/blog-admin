@@ -4,7 +4,7 @@ export function categoryList(query) {
   return request({
     url: '/category/list',
     method: 'get',
-    query
+    params: query
   })
 }
 
