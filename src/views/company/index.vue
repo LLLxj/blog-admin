@@ -69,7 +69,7 @@ export default {
       listLoading: true,
       // 搜索条件
       searchData: {
-        name: ''
+        name: '',
       },
       //  分页参数
       pageSizes: [10, 20, 30, 40],
