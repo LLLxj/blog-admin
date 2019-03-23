@@ -45,7 +45,6 @@
 import { categoryList } from '@/api/category'
 
 export default {
-  name: 'categoryList',
   data() {
     return {
       list: [],
@@ -68,8 +67,8 @@ export default {
     this.getDataList()
   },
   methods: {
-    getDataList() {
-      const postData = this.searchData
+    getDataList(param) {
+      const postData = param || this.searchData
       this.listLoading = true
       categoryList(postData).then(res => {
         if (res.data && res.data.code === 0) {
@@ -124,7 +123,7 @@ export default {
                 duration: 5 * 1000
               })
               // 重载
-              this.getList(this.searchData)
+              this.getDataList(this.searchData)
             } else {
               this.$message({
                 message: res.data.status.Msg,
@@ -151,8 +150,8 @@ export default {
     },
     // 搜索
     search() {
-      this.searchData.page = 1
-      this.getList(this.searchData)
+      this.searchData.currentPage = 1
+      this.getDataList(this.searchData)
     },
     // 置空搜索
     resetSearch() {
@@ -163,13 +162,15 @@ export default {
     // 分页事件
     handleSizeChange(row) {
     // 每页显示数改变
-      this.searchData.pagenum = row
-      this.getList(this.searchData)
+      this.searchData.pageSize = row
+      
+      this.getDataList(this.searchData)
     },
     handleCurrentChange(row) {
     // 当前页改变
-      this.searchData.page = row
-      this.getList(this.searchData)
+      this.searchData.currentPage = row
+      console.log(this.searchData)
+      this.getDataList(this.searchData)
     }
     // 分页end
   }
