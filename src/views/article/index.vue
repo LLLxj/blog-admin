@@ -23,7 +23,7 @@
       </el-table-column>
       <el-table-column label="内容" prop="content" align="center" header-align="center">
       </el-table-column>
-      <el-table-column label="分类" prop="category_name" header-align="center" align="center" width="150">
+      <el-table-column label="分类" prop="name" header-align="center" align="center" width="150">
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="create_time" width="200" :formatter="dateFormatter">
       </el-table-column>
@@ -55,7 +55,6 @@ import { articleList, articleDelete } from '@/api/article'
 import { dateSubstring } from '@/utils/index'
 
 export default {
-  name: 'projectList',
   data() {
     return {
       list: [],
@@ -72,20 +71,12 @@ export default {
       totalNum: 100
     }
   },
-  // beforeCreate () {
-  //   this.getDataList()
-  // },
-  // activated () {
-  //   this.getDataList()
-  // },
   created () {
     this.getDataList()
   },
   methods: {
-    getDataList() {
-      const postData = this.searchData
-      postData.currentPage = 1
-      postData.pageSize = 10
+    getDataList(param) {
+      const postData = param || this.searchData
       this.listLoading = true
       articleList(postData).then(res => {
         if (res.data && res.data.code === 0) {
@@ -157,11 +148,12 @@ export default {
     // 分页事件
     handleSizeChange(row) {
     // 每页显示数改变
-      this.searchData.pagenum = row
+      this.searchData.pageSize = row
       this.getDataList(this.searchData)
     },
     handleCurrentChange(row) {
     // 当前页改变
+    console.log(row)
       this.searchData.currentPage = row
       this.getDataList(this.searchData)
     },
