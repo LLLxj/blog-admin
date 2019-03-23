@@ -240,7 +240,7 @@ const asyncRouterMap = [
     path: '/category',
     component: Layout,
     redirect: 'noredirect', // 当设置 noredirect 的时候该路由在面包屑导航中不可被点击
-    name: 'Category',
+    name: 'category',
     meta: {
       title: '分类管理',
       icon: 'category',
@@ -319,7 +319,7 @@ const asyncRouterMap = [
     path: '/article',
     component: Layout,
     redirect: 'noredirect', // 当设置 noredirect 的时候该路由在面包屑导航中不可被点击
-    name: 'aiticle',
+    name: 'article',
     meta: {
       title: '文章管理',
       icon: 'cms',
