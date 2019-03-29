@@ -1,10 +1,12 @@
 <template>
   <section class="app-main">
-    <transition name="fade-transform" mode="out-in">
-      <keep-alive :include="cachedViews">
-        <router-view :key="key"></router-view>
-      </keep-alive>
-    </transition>
+    <el-card class="main-content-card">
+      <transition name="fade-transform" mode="out-in">
+        <keep-alive :include="cachedViews">
+          <router-view :key="key"></router-view>
+        </keep-alive>
+      </transition>
+    </el-card>
   </section>
 </template>
 
@@ -28,5 +30,11 @@ export default {
   min-height: calc(100vh - 84px);
   position: relative;
   overflow: hidden;
+}
+.main-content-card{
+  min-height: calc(96vh - 84px);
+  width:98%;
+  margin: 0 auto;
+  margin-top:2vh;
 }
 </style>
