@@ -26,6 +26,8 @@ Vue.use(xlog)
 Vue.use(VueQuillEditor)
 
 Vue.config.productionTip = false
+// 保存整站vuex本地储存初始状态
+// window.SITE_CONFIG['storeState'] = cloneDeep(store.state)
 
 new Vue({
   el: '#app',
