@@ -36,12 +36,26 @@
 </template>
 
 <script>
-import { addCategory, categoryInfo } from '@/api/category'
+import { addCategory, checkCategoryName } from '@/api/category'
 import { quillEditor } from 'vue-quill-editor'
 
 export default {
   name: 'addCompany',
   data() {
+    var validateName = (rule, value, callback) => {
+      if (value) {
+        checkCategoryName({name:value}).then(res => {
+          console.log(res)
+          if(res.data && res.data.code === 0) {
+            callback()
+          } else {
+            callback(new Error('该目录已存在'))
+          }
+        })
+      } else {
+        callback(new Error('手机号格式错误'))
+      }
+    }
     return {
       dataForm: {
         id: '',
@@ -61,7 +75,8 @@ export default {
       // 表单验证规则
       rules: {
         name: [
-          { required: true, message: '必填项', trigger: 'blur' }
+          { required: true, message: '必填项', trigger: 'blur' },
+          { validator: validateName, trigger: 'blur'}
         ]
       }
     }
@@ -95,6 +110,8 @@ export default {
       categoryInfo(data).then(res => {
         if(res.data && res.data.code === 0) {
           this.dataForm = res.data.data
+        } else {
+          this.$message.error(res.data.msg)
         }
       })
     },
