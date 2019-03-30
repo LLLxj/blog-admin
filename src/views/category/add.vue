@@ -45,7 +45,6 @@ export default {
     var validateName = (rule, value, callback) => {
       if (value) {
         checkCategoryName({name:value}).then(res => {
-          console.log(res)
           if(res.data && res.data.code === 0) {
             callback()
           } else {
