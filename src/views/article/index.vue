@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <div class = "operate-wrapper">
-      <router-link  to="add" style="margin-right:30px">
+    <!-- <div class = "operate-wrapper">
+      <router-link to="add" style="margin-right:30px">
         <a class="addNew">
             <el-button type="success">
             新增文章
@@ -12,7 +12,24 @@
       </el-input>
       <el-button @click.stop="search()" type="primary">搜索</el-button>
       <el-button @click.stop="resetSearch()" type="danger">置空条件</el-button>
-    </div>
+    </div> -->
+  
+    <el-form :inline="true" :model="searchData" @keyup.enter.native="getDataList()">
+      <el-form-item label="标题">
+        <el-input v-model="searchData.title" placeholder="请输入标题" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="内容">
+        <el-input v-model="searchData.content" placeholder="请输入内容" clearable></el-input>
+      </el-form-item>
+      <!-- <el-form-item label="分类">
+        <selectCategory v-model="searchData.categoryId" />
+      </el-form-item> -->
+      <el-form-item>
+        <el-button @click="getDataList()">查询</el-button>
+        <el-button @click="resetSearch()">重置</el-button>
+        <el-button type="primary" @click="addHandle()">新增</el-button>
+      </el-form-item>
+    </el-form>
     <el-table :data="list" v-loading.body="listLoading" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column header-align="center" align="center" type="index" label="NO" width="80" >
         <!-- <template slot-scope="scope">
@@ -27,10 +44,10 @@
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="create_time" width="200" :formatter="dateFormatter">
       </el-table-column>
-      <el-table-column label="操作" width="250" align="center" header-align="center">
+      <el-table-column label="操作" width="150" align="center" header-align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click.stop="handleEdit(scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click.stop="handleDel(scope.row.id)">删除</el-button>
+          <el-button size="mini" type="text" @click.stop="handleEdit(scope.row)">编辑</el-button>
+          <el-button size="mini" type="text" @click.stop="handleDel(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -53,6 +70,7 @@
 <script>
 import { articleList, articleDelete } from '@/api/article'
 import { dateSubstring } from '@/utils/index'
+// import selectCategory from '@/common-select/select-category'
 
 export default {
   data() {
@@ -62,7 +80,7 @@ export default {
       // 搜索条件
       searchData: {
         title: '',
-        content: ''
+        content: '',
       },
       //  分页参数
       pageSizes: [10, 20, 30, 40],
@@ -73,6 +91,9 @@ export default {
   },
   created () {
     this.getDataList()
+  },
+  components: {
+    // selectCategory
   },
   methods: {
     getDataList(param) {
@@ -111,6 +132,15 @@ export default {
         }
       })
     },
+    // 新增
+    addHandle() {
+      this.$router.push({
+        name: 'addArticle',
+        query: {
+         
+        }
+      })
+    },
     // 删除
     handleDel(id) {
       this.$confirm(`确定删除?`, '提示', {
@@ -142,8 +172,10 @@ export default {
     // 置空搜索
     resetSearch() {
       this.searchData = {
-        name: ''
+        title: '',
+        content: ''
       }
+      this.getDataList(this.searchData)
     },
     // 分页事件
     handleSizeChange(row) {
