@@ -22,3 +22,11 @@ export function addCategory(data) {
     data
   })
 }
+
+export function checkCategoryName(query) {
+  return request({
+    url: '/category/checkName',
+    method: 'get',
+    params: query
+  })
+}
