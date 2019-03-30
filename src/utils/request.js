@@ -4,7 +4,6 @@ import store from '../store'
 import { getToken } from '@/utils/auth'
 
 // 创建axios实例
-console.log(process.env.BASE_API)
 const service = axios.create({
   // baseURL: 'http://localhost:5000',
   // baseURL: '112.74.162.61:5000',
