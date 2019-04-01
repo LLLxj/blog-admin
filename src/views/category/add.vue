@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { addCategory, checkCategoryName } from '@/api/category'
+import { addCategory, checkCategoryName, categoryInfo } from '@/api/category'
 import { quillEditor } from 'vue-quill-editor'
 
 export default {
