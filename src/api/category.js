@@ -30,3 +30,12 @@ export function checkCategoryName(query) {
     params: query
   })
 }
+
+
+export function uploadBacGround(query) {
+  return request({
+    url: '/uploadCategoryBac',
+    method: 'post',
+    params: query
+  })
+}
