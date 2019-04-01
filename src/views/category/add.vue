@@ -11,8 +11,19 @@
           <el-input-number v-model="dataForm.order" controls-position="right" @change="handleChange" :min="0" :max="6"></el-input-number>
         </el-form-item>
 
-        <!-- <el-form-item label="分类背景图" prop="catBac">
-          <el-upload class="upload-demo" action="uploadCategoryBac" :on-preview="handlePreview" :on-remove="handleRemove"
+        <el-form-item label="背景图" prop="background">
+          <el-upload class="upload-demo" v-model="dataForm.background" drag action="http://localhost:5000/category/uploadCategoryBac/" multiple :on-success="getUpload">
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+          <div class="show-images">
+              <img :src="this.dataForm.background" alt="">
+            </div>
+        </el-form-item>
+
+        <!-- <el-form-item label="分类背景图" prop="background">
+          <el-upload class="upload-demo" action="http://localhost:5000/category/uploadCategoryBac/" :on-preview="handlePreview" :on-remove="handleRemove"
            :before-remove="beforeRemove" multiple :limit="1" :on-exceed="handleExceed" :file-list="fileList">
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -60,7 +71,7 @@ export default {
         id: '',
         name: '',
         order: '',
-        // catBac: ''
+        background: ''
       },
       infoForm: {
         a_title: '',
@@ -124,8 +135,9 @@ export default {
       console.log(file);
     },
     // 上传照片
-    uploadBac () {
-
+    getUpload (res) {
+      console.log(res.data)
+      this.dataForm.background = res.data
     },
     handleExceed(files, fileList) {
       this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -165,6 +177,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import "src/styles/common.scss";
+  @import "src/styles/common.scss";
+  .show-images{
+    width:30%;
+  }
+  .show-images img{
+    width:100%
+  }
 </style>
 

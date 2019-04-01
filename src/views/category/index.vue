@@ -29,7 +29,13 @@
       </el-table-column>
       <el-table-column label="分类名称" prop="name" header-align="center" align="center">
       </el-table-column>
-       <el-table-column label="创建时间" align="center" prop="create_time" width="200" :formatter="dateFormatter">
+      <el-table-column align="center" label='背景图'>
+        <template slot-scope="scope">
+          <img :src="scope.row.background" alt="">
+          <!-- <img src="{{scope.row.id}}" alt=""> -->
+        </template>
+      </el-table-column>
+      <el-table-column label="创建时间" align="center" prop="create_time" width="200" :formatter="dateFormatter">
       </el-table-column>
       <el-table-column label="操作" width="150" header-align="center" align="center">
         <template slot-scope="scope">
@@ -117,7 +123,6 @@ export default {
       })
     },
     // 新增
-    
      addHandle() {
       this.$router.push({
         name: 'addCategory',
