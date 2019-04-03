@@ -39,3 +39,12 @@ export function uploadBacGround(query) {
     params: query
   })
 }
+
+
+export function updateCategory(data) {
+  return request({
+    url: '/category/update',
+    method: 'post',
+    data
+  })
+}
