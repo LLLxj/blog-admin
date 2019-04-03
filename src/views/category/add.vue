@@ -140,7 +140,7 @@ export default {
     // 上传照片
     getUpload (res) {
       console.log(res.data)
-      this.dataForm.background = res.data.src
+      this.dataForm.background = res.data.resource
       this.dataForm.resource = res.data.resource
     },
     handleExceed(files, fileList) {
