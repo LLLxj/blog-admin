@@ -12,13 +12,13 @@
         </el-form-item>
 
         <el-form-item label="背景图" prop="background">
-          <el-upload class="upload-demo" v-model="dataForm.background" drag action="http://localhost:5000/category/uploadCategoryBac/" multiple :on-success="getUpload">
+          <el-upload class="upload-demo" v-model="dataForm.background" drag :action="url" multiple :on-success="getUpload">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
             <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
           <div class="show-images">
-              <img :src="this.dataForm.background" alt="">
+              <img style="width:50px;height:50px;" :src="this.dataForm.background" alt="">
             </div>
         </el-form-item>
 
@@ -67,11 +67,13 @@ export default {
       }
     }
     return {
+      url: '',
       dataForm: {
         id: '',
         name: '',
         order: '',
-        background: ''
+        background: '',
+        resource: ''
       },
       infoForm: {
         a_title: '',
@@ -97,6 +99,7 @@ export default {
   created() {
     // 判断是新增还是修改
     const rowData = this.$route.query.id || 0
+    this.url = this.$http.adornUrl(`/category/uploadCategoryBac`)
     if (rowData) {
       this.submitbtnStatus = false
       this.setData(rowData)
@@ -137,7 +140,8 @@ export default {
     // 上传照片
     getUpload (res) {
       console.log(res.data)
-      this.dataForm.background = res.data
+      this.dataForm.background = res.data.src
+      this.dataForm.resource = res.data.resource
     },
     handleExceed(files, fileList) {
       this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -149,7 +153,11 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           if (this.submitbtnStatus) {
-            addCategory(this.dataForm).then(res => {
+            addCategory({
+              'name': this.dataForm.name,
+              'order': this.dataForm.order,
+              'background': this.dataForm.resource
+            }).then(res => {
               if(res.data && res.data.code === 0) {
                 this.$message({
                   message: '操作成功',
