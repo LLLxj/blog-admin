@@ -18,8 +18,8 @@
             <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
           <div class="show-images">
-              <img style="width:50px;height:50px;" :src="this.dataForm.background" alt="">
-            </div>
+            <img style="width:50px;height:50px;" :src="this.dataForm.resource" alt="">
+          </div>
         </el-form-item>
 
         <!-- <el-form-item label="分类背景图" prop="background">
@@ -41,7 +41,7 @@
             <el-button type="primary" @click="submitForm()" v-if="submitbtnStatus">立即创建</el-button>
             <el-button type="primary" @click="submitForm()" v-else>保存修改</el-button>
         </el-form-item>
-        </el-form>
+      </el-form>
     </div>
   </div>
 </template>
@@ -139,7 +139,7 @@ export default {
     },
     // 上传照片
     getUpload (res) {
-      console.log(res.data)
+      console.log(res.data.resource)
       this.dataForm.background = res.data.resource
       this.dataForm.resource = res.data.resource
     },
@@ -151,12 +151,13 @@ export default {
     },
     submitForm () {
       this.$refs['dataForm'].validate((valid) => {
+        console.log(this.dataForm)
         if (valid) {
           if (this.submitbtnStatus) {
             addCategory({
               'name': this.dataForm.name,
               'order': this.dataForm.order,
-              'background': this.dataForm.resource
+              'background': this.dataForm.background
             }).then(res => {
               if(res.data && res.data.code === 0) {
                 this.$message({
