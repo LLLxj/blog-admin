@@ -24,6 +24,11 @@ service.interceptors.request.use(config => {
   Promise.reject(error)
 })
 
+service.adornUrl = (actionName) => {
+  // 非生产环境 && 开启代理, 接口前缀统一使用[/proxyApi/]前缀做代理拦截!
+  return  process.env.BASE_API + actionName
+}
+
 // respone拦截器
 service.interceptors.response.use(
   response => response,
