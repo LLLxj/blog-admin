@@ -9,7 +9,7 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import router from './router'
 import store from './store'
-
+import httpRequest from '@/utils/request'
 import '@/icons' // icon
 import '@/permission' // permission control
 import xlog from './utils/xlog'
@@ -24,6 +24,7 @@ Vue.use(xlog)
 Vue.use(VueQuillEditor)
 
 Vue.config.productionTip = false
+Vue.prototype.$http = httpRequest
 // 保存整站vuex本地储存初始状态
 // window.SITE_CONFIG['storeState'] = cloneDeep(store.state)
 
