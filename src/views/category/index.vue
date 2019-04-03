@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { categoryList, checkCategoryName } from '@/api/category'
+import { categoryList, checkCategoryName, categoryDelete } from '@/api/category'
 import { dateSubstring } from '@/utils/index'
 
 export default {
@@ -132,49 +132,26 @@ export default {
     },
     // 删除
     handleDel(row) {
-      this.$confirm('此操作不可逆，确定删除?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        const postData = {
-          id: row.id
-        }
-        this.isLoading = true
-        delProject(postData)
-          .then(res => {
-            this.isLoading = false
-            if (res.data.status.Code === 200) {
+      this.$confirm(`确定删除?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          categoryDelete(row.id).then(res => {
+            if(res.data && res.data.code === 0){
               this.$message({
                 message: '操作成功',
                 type: 'success',
-                duration: 5 * 1000
+                duration: 1500,
+                onClose: () => {
+                  this.getDataList()
+                }
               })
-              // 重载
-              this.getDataList(this.searchData)
-            } else {
-              this.$message({
-                message: res.data.status.Msg,
-                type: 'error',
-                duration: 5 * 1000
-              })
+            }else{
+              this.$message.error(res.data.msg)
             }
           })
-          .catch(err => {
-            this.isLoading = false
-            this.$message({
-              message: '请求接口失败！',
-              type: 'error',
-              duration: 5 * 1000
-            })
-            console.log(err)
-          })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消删除'
-        })
-      })
+        }).catch(() => {})
     },
     // 搜索
     search() {
