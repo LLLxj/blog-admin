@@ -31,7 +31,7 @@
       </el-table-column>
       <el-table-column align="center" label='背景图'>
         <template slot-scope="scope">
-          <img :src="scope.row.background" alt="">
+          <img class="category-bac" :src="scope.row.background" alt="">
           <!-- <img src="{{scope.row.id}}" alt=""> -->
         </template>
       </el-table-column>
@@ -77,7 +77,7 @@ export default {
       pageSizes: [10, 20, 30, 40],
       pageSize: 10,
       currentPage: 1,
-      totalNum: 100
+      totalNum: 100,
     }
   },
   // beforeCreate () {
@@ -86,7 +86,7 @@ export default {
   created () {
     this.getDataList()
   },
-  methods: {
+  methods: {  
     getDataList(param) {
       const postData = param || this.searchData
       this.listLoading = true
@@ -210,5 +210,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "src/styles/common.scss";
+.category-bac{
+  width:30px;
+  height:30px;
+}
 </style>
 

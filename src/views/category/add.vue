@@ -17,8 +17,9 @@
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
             <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
+          
           <div class="show-images">
-            <img style="width:50px;height:50px;" :src="this.dataForm.resource" alt="">
+            <img :src="this.dataForm.resource" alt="">
           </div>
         </el-form-item>
 
@@ -39,7 +40,7 @@
 
         <el-form-item>
             <el-button type="primary" @click="submitForm()" v-if="submitbtnStatus">立即创建</el-button>
-            <el-button type="primary" @click="submitForm()" v-else>保存修改</el-button>
+            <el-button type="primary" @click="updateForm()" v-else>保存修改</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -47,7 +48,7 @@
 </template>
 
 <script>
-import { addCategory, checkCategoryName, categoryInfo } from '@/api/category'
+import { addCategory, checkCategoryName, categoryInfo, updateCategory } from '@/api/category'
 import { quillEditor } from 'vue-quill-editor'
 
 export default {
@@ -123,6 +124,7 @@ export default {
       categoryInfo(data).then(res => {
         if(res.data && res.data.code === 0) {
           this.dataForm = res.data.data
+          this.dataForm.resource = res.data.data.background
         } else {
           this.$message.error(res.data.msg)
         }
@@ -177,8 +179,32 @@ export default {
               console.log(err)
             })
           }
-          
         }
+      })
+    },
+    updateForm () {
+      updateCategory({
+        'id': this.dataForm.id,
+        'name': this.dataForm.name,
+        'order': this.dataForm.order,
+        'background': this.dataForm.background
+      }).then(res => {
+        if(res.data && res.data.code === 0) {
+          this.$message({
+            message: '更新成功',
+            type: 'success',
+            duration: 3 * 1000,
+            onClose: () => {
+              this.$router.push({
+                name: 'categoryList'
+              })
+            }
+          })
+        } else {
+          this.$message.error(res.data.msg)
+        }
+      }).catch(err => {
+        console.log(err)
       })
     }
     
@@ -188,7 +214,8 @@ export default {
 <style lang="scss" scoped>
   @import "src/styles/common.scss";
   .show-images{
-    width:30%;
+    width:40%;
+    margin-top:30px;
   }
   .show-images img{
     width:100%
