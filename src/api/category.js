@@ -48,3 +48,10 @@ export function updateCategory(data) {
     data
   })
 }
+
+export function categoryDelete(data) {
+  return request({
+    url: '/category/delete/' + data,
+    method: 'get',
+  })
+}
