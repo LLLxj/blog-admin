@@ -10,19 +10,16 @@
           <selectCategory v-model="dataForm.category_id" />
         </el-form-item>
         
-        <el-form-item label="文章内容" prop="content">
+        <!-- <el-form-item label="文章内容" prop="content">
           <el-input v-model="dataForm.content" type="textarea" :rows="2" placeholder="请输入文章内容" >
           </el-input>
-        </el-form-item>
-        <!-- <el-form-item label="详细">
-          <div class="edit_container">
-          <quill-editor v-model="infoForm.a_content"
-                  ref="myQuillEditor"
-                  class="editer"
-                  :options="editorOption" @ready="onEditorReady($event)">
-          </quill-editor>
-          </div>
         </el-form-item> -->
+        <el-form-item label="详细">
+          <div class="edit_container">
+            <quill-editor v-model="dataForm.content" ref="myQuillEditor" class="editer" :options="editorOption" @ready="onEditorReady($event)">
+            </quill-editor>
+          </div>
+        </el-form-item>
 
           <el-form-item>
             <el-button type="primary" @click="submitForm()" v-if="submitbtnStatus">立即创建</el-button>
@@ -46,13 +43,16 @@ export default {
         id: '',
         title: '',
         content: '',
-        category_id: ''
-      },
-      infoForm: {
+        category_id: '',
         a_title: '',
         a_source: '',
-        a_content:'',
+        content:'',
       },
+      // infoForm: {
+      //   a_title: '',
+      //   a_source: '',
+      //   a_content:'',
+      // },
       editorOption: {},
       isLoading: false,
       // 表单验证规则
@@ -99,10 +99,21 @@ export default {
       this.dataForm = {
         title: '',
         content: '',
-        categoryId: ''
+        categoryId: '',
+        a_title: '',
+        a_source: '',
+        a_content:'',
+        id: ''
       }
     },
+    // 转码
+    escapeStringHTML(str) {
+      str = str.replace(/&lt;/g,'<');
+      str = str.replace(/&gt;/g,'>');
+      return str;
+    },
     submitForm () {
+      this.dataForm.content = this.escapeStringHTML(this.dataForm.content)
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           if(this.submitbtnStatus){

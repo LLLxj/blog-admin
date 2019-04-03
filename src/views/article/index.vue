@@ -36,13 +36,14 @@
           {{scope.row.id}}
         </template> -->
       </el-table-column>
-      <el-table-column label="标题" prop="title" header-align="center" align="center" width="150">
-      </el-table-column>
-      <el-table-column label="内容" prop="content" align="center" header-align="center">
-      </el-table-column>
+      
+      <!-- <el-table-column label="内容" prop="content" align="center" header-align="center">
+      </el-table-column> -->
       <el-table-column label="分类" prop="name" header-align="center" align="center" width="150">
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="create_time" width="200" :formatter="dateFormatter">
+      </el-table-column>
+      <el-table-column label="标题" prop="title" header-align="center" align="center">
       </el-table-column>
       <el-table-column label="操作" width="150" align="center" header-align="center">
         <template slot-scope="scope">
@@ -100,6 +101,7 @@ export default {
       const postData = param || this.searchData
       this.listLoading = true
       articleList(postData).then(res => {
+        console.log(res.data.data.content)
         if (res.data && res.data.code === 0) {
           // 处理数据
           this.listLoading = false
