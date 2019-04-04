@@ -9,6 +9,18 @@
         <el-form-item label="选择分类" prop="category_id">
           <selectCategory v-model="dataForm.category_id" />
         </el-form-item>
+
+        <el-form-item label="封面" prop="background">
+          <el-upload class="upload-demo" v-model="dataForm.background" drag :action="url" multiple :on-success="getUpload">
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+          
+          <div class="show-images">
+            <img :src="this.dataForm.resource" alt="">
+          </div>
+        </el-form-item>
         
         <!-- <el-form-item label="文章内容" prop="content">
           <el-input v-model="dataForm.content" type="textarea" :rows="2" placeholder="请输入文章内容" >
@@ -39,13 +51,14 @@ export default {
   name: 'addCompany',
   data() {
     return {
+      url: '',
       dataForm: {
         id: '',
         title: '',
         content: '',
         category_id: '',
-        a_title: '',
-        a_source: '',
+        background: '',
+        resource: '',
         content:'',
       },
       // infoForm: {
@@ -69,6 +82,7 @@ export default {
   created() {
     // 判断是新增还是修改
     const rowData = this.$route.query.id || 0
+    this.url = this.$http.adornUrl(`/category/uploadCategoryBac`)
     if (rowData) {
       this.submitbtnStatus = false
       this.setData(rowData)
@@ -97,14 +111,35 @@ export default {
     },
     resetDataForm () {
       this.dataForm = {
+        id: '',
         title: '',
         content: '',
-        categoryId: '',
-        a_title: '',
-        a_source: '',
-        a_content:'',
-        id: ''
+        category_id: '',
+        background: '',
+        resource: '',
+        content:'',
       }
+    },
+    handleChange (data) {
+      console.log(data)
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    // 上传照片
+    getUpload (res) {
+      console.log(res.data.resource)
+      this.dataForm.background = res.data.resource
+      this.dataForm.resource = res.data.resource
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${ file.name }？`);
     },
     // 转码
     escapeStringHTML(str) {
@@ -172,5 +207,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "src/styles/common.scss";
+ .show-images{
+    width:40%;
+    margin-top:30px;
+  }
+  .show-images img{
+    width:100%
+  }
 </style>
 
