@@ -131,7 +131,6 @@ export default {
     },
     // 上传照片
     getUpload (res) {
-      console.log(res.data.resource)
       this.dataForm.background = res.data.resource
       this.dataForm.resource = res.data.resource
     },
