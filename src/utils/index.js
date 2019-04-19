@@ -1,6 +1,7 @@
 /**
  * Created by jiachenpan on 16/11/18.
  */
+import Vue from 'vue'
 
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
@@ -258,4 +259,12 @@ export function uniqueArr(arr) {
 // 时间戳转时间格式
 export function dateSubstring (dateStr) {
   return dateStr ? dateStr.substring(0, 10) : '-'
+}
+
+
+// 清除登录信息
+export function clearLoginInfo () {
+  Vue.cookie.delete('token')
+  // store.commit('resetStore')
+  // router.options.isAddDynamicMenuRoutes = false
 }
