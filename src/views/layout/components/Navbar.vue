@@ -27,6 +27,9 @@ import { mapGetters } from 'vuex'
 import SizeSelect from '@/components/SizeSelect'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import { logout } from '@/api/login'
+import { clearLoginInfo } from '@/utils/index'
+import { removeToken } from '@/utils/auth'
 
 export default {
   components: {
@@ -45,8 +48,14 @@ export default {
       this.$store.dispatch('ToggleSideBar')
     },
     logout() {
-      this.$store.dispatch('LogOut').then(() => {
-        location.reload() // 为了重新实例化vue-router对象 避免bug
+      // this.$store.dispatch('logout').then(() => {
+      //   location.reload() // 为了重新实例化vue-router对象 避免bug
+      // })
+      logout().then(res => {
+        if(res.data && res.data.code === 0) {
+          removeToken()
+          this.$router.push({ path: '/login' })
+        } 
       })
     }
   }
