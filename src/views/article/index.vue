@@ -101,7 +101,6 @@ export default {
       const postData = param || this.searchData
       this.listLoading = true
       articleList(postData).then(res => {
-        console.log(res.data.data.content)
         if (res.data && res.data.code === 0) {
           // 处理数据
           this.listLoading = false
