@@ -31,6 +31,8 @@
 
 <script>
 import { isvalidUsername } from '@/utils/validate'
+import { login } from '@/api/login'
+import { setToken } from '@/utils/auth'
 
 export default {
   name: 'login',
@@ -51,12 +53,16 @@ export default {
     }
     return {
       loginForm: {
-        username: 'xiaohui@qq.com',
-        password: 'H.ae2zsPZGWsFk'
+        username: '测试哈士奇',
+        password: '123456'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePass }]
+        username: [
+          {required: true, message: '用户名不能为空', trigger: 'blur'}
+        ],
+        password: [
+           {required: true, message: '密码不能为空', trigger: 'blur'}
+        ]
       },
       loading: false,
       pwdType: 'password'
@@ -74,10 +80,27 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('Login', this.loginForm).then(() => {
-            console.log('登录成功')
-            this.loading = false
-            this.$router.push({ path: '/' })
+          login(this.loginForm).then(res => {
+            if(res.data && res.data.code === 0) {
+              setToken(res.data.token)
+              this.loading = false
+              this.$message({
+                message: res.data.msg,
+                type: 'success',
+                duration: 1500,
+                onClose: () => {
+                  this.$router.push({ path: '/' })
+                }
+              })
+            } else {
+              this.loading = false
+              this.$message({
+                message: res.data.msg,
+                type: 'error',
+                duration: 1500,
+              })
+            }
+            
           }).catch(() => {
             this.loading = false
           })
