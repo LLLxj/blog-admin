@@ -2,6 +2,12 @@
   <el-menu class="navbar" mode="horizontal">
     <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
     <breadcrumb></breadcrumb>
+
+    <div class="screenfull" @click="changeFullScreen()">
+      <svg-icon icon-class="fullscreen"></svg-icon>
+    </div>
+    
+
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
         <img class="user-avatar" :src="avatar+'?imageView2/1/w/80/h/80'">
@@ -18,20 +24,26 @@
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-
   </el-menu>
+ 
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import SizeSelect from '@/components/SizeSelect'
 import Breadcrumb from '@/components/Breadcrumb'
+import screenfull from 'screenfull'
 import Hamburger from '@/components/Hamburger'
 import { logout } from '@/api/login'
 import { clearLoginInfo } from '@/utils/index'
 import { removeToken } from '@/utils/auth'
 
 export default {
+  data () {
+    return {
+      isFullscreen: false
+    }
+  },
   components: {
     Breadcrumb,
     Hamburger,
@@ -43,9 +55,26 @@ export default {
       'avatar'
     ])
   },
+   init() {
+    if (screenfull.enabled) {
+      screenfull.on('change', () => {
+        this.isFullscreen = screenfull.isFullscreen
+      })
+    }
+  },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('ToggleSideBar')
+    },
+    changeFullScreen() {
+      if (!screenfull.enabled) {
+        this.$message({
+          message: '你的浏览器不支持此功能',
+          type: 'warning'
+        })
+        return false
+      }
+      screenfull.toggle()
     },
     logout() {
       // this.$store.dispatch('logout').then(() => {
@@ -75,9 +104,8 @@ export default {
   }
   .screenfull {
     position: absolute;
-    right: 90px;
-    top: 16px;
-    color: red;
+    right: 120px;
+    top:0;
   }
   .avatar-container {
     height: 50px;
