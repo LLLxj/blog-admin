@@ -45,38 +45,6 @@ export const constantRouterMap = [
 
 const asyncRouterMap = [
   // {
-  //   path: '/project',
-  //   component: Layout,
-  //   redirect: 'noredirect', // 当设置 noredirect 的时候该路由在面包屑导航中不可被点击
-  //   name: 'Project',
-  //   meta: {
-  //     title: '项目管理',
-  //     icon: 'project',
-  //     roles: ['supadmin', 'admin']
-  //   },
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       name: 'projectList',
-  //       component: () => import('@/views/project/index'),
-  //       meta: { title: '项目列表' }
-  //     },
-  //     {
-  //       path: 'add',
-  //       name: 'addProject',
-  //       component: () => import('@/views/project/add'),
-  //       meta: { title: '新增项目列表' }
-  //     },
-  //     {
-  //       path: 'edit',
-  //       name: 'editProject',
-  //       hidden: true,
-  //       component: () => import('@/views/project/add'),
-  //       meta: { title: '编辑项目列表' }
-  //     }
-  //   ]
-  // },
-  // {
   //   path: '/git',
   //   component: Layout,
   //   redirect: 'noredirect', // 当设置 noredirect 的时候该路由在面包屑导航中不可被点击
@@ -236,6 +204,37 @@ const asyncRouterMap = [
   //     }
   //   ]
   // },
+  {
+    path: '/user',
+    component: Layout,
+    redirect: 'noredirect', // 当设置 noredirect 的时候该路由在面包屑导航中不可被点击
+    name: 'user',
+    meta: {
+      title: '用户管理',
+      icon: 'project'
+    },
+    children: [
+      {
+        path: 'list',
+        name: 'userList',
+        component: () => import('@/views/user/index'),
+        meta: { title: '用户列表' }
+      },
+      {
+        path: 'add',
+        name: 'addUser',
+        component: () => import('@/views/user/add'),
+        meta: { title: '新增用户' }
+      },
+      {
+        path: 'edit',
+        name: 'editUser',
+        hidden: true,
+        component: () => import('@/views/user/add'),
+        meta: { title: '编辑用户' }
+      }
+    ]
+  },
   {
     path: '/category',
     component: Layout,
