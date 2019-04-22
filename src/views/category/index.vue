@@ -100,7 +100,7 @@ export default {
           this.$message({
             message: res.data.status.Msg,
             type: 'error',
-            duration: 3 * 1000
+            duration: 1500
           })
         }
       }).catch(err => {
@@ -109,7 +109,7 @@ export default {
         this.$message({
           message: '读取接口失败！',
           type: 'error',
-          duration: 3 * 1000
+          duration: 1500
         })
       })
     },

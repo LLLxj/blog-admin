@@ -165,7 +165,7 @@ export default {
                 this.$message({
                   message: '操作成功',
                   type: 'success',
-                  duration: 3 * 1000,
+                  duration: 1500,
                   onClose: () => {
                     this.$router.push({
                       name: 'categoryList'
@@ -193,7 +193,7 @@ export default {
           this.$message({
             message: '更新成功',
             type: 'success',
-            duration: 3 * 1000,
+            duration: 1500,
             onClose: () => {
               this.$router.push({
                 name: 'categoryList'
