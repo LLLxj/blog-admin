@@ -156,7 +156,7 @@ export default {
                 this.$message({
                   message: '新增成功',
                   type: 'success',
-                  duration: 3 * 1000,
+                  duration: 1500,
                   onClose: () => {
                     this.$router.push({
                       name: 'articleList'
@@ -167,7 +167,7 @@ export default {
                 this.$message({
                   message: res.data.msg,
                   type: 'error',
-                  duration: 3 * 1000
+                  duration: 1500
                 })
                 this.resetDataForm()
               }
@@ -180,7 +180,7 @@ export default {
                 this.$message({
                   message: '更新成功',
                   type: 'success',
-                  duration: 3 * 1000,
+                  duration: 1500,
                   onClose: () => {
                     this.$router.push({
                       name: 'articleList'
@@ -191,7 +191,7 @@ export default {
                 this.$message({
                   message: res.data.msg,
                   type: 'error',
-                  duration: 3 * 1000
+                  duration: 1500
                 })
               }
             })

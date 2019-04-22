@@ -111,7 +111,7 @@ export default {
           this.$message({
             message: res.data.msg,
             type: 'error',
-            duration: 3 * 1000
+            duration: 1500
           })
         }
       }).catch(err => {
@@ -120,7 +120,7 @@ export default {
         this.$message({
           message: '读取接口失败！',
           type: 'error',
-          duration: 3 * 1000
+          duration: 1500
         })
       })
     },
@@ -154,7 +154,7 @@ export default {
             this.$message({
               message: '操作成功',
               type: 'success',
-              duration: 3000,
+              duration: 1500,
               onClose: () => {
                 this.getDataList()
               }
