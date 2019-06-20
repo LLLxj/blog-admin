@@ -24,7 +24,6 @@ import Layout from '../views/layout/Layout'
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
-
   {
     path: '',
     component: Layout,
@@ -343,6 +342,37 @@ const asyncRouterMap = [
         component: () => import('@/views/article/add'),
         meta: { title: '编辑文章' }
       }
+    ]
+  },
+  {
+    path: '/activity',
+    component: Layout,
+    redirect: 'noredirect', // 当设置 noredirect 的时候该路由在面包屑导航中不可被点击
+    name: 'activity',
+    meta: {
+      title: '活动管理',
+      icon: 'category',
+    },
+    children: [
+      {
+        path: 'list',
+        name: 'activityList',
+        component: () => import('@/views/activity/index'),
+        meta: { title: '活动列表', icon: 'cms', }
+      },
+      {
+        path: 'add',
+        name: 'addActivity',
+        component: () => import('@/views/activity/add'),
+        meta: { title: '新增活动', icon: 'cms', }
+      },
+      {
+        path: 'edit',
+        name: 'editActivity',
+        hidden: true,
+        component: () => import('@/views/activity/add'),
+        meta: { title: '编辑活动', icon: 'cms', }
+      },
     ]
   },
 ]

@@ -21,7 +21,7 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
-    }
+    },
   },
 
   actions: {
@@ -87,7 +87,7 @@ const user = {
         removeToken()
         resolve()
       })
-    }
+    },
   }
 }
 

@@ -53,7 +53,7 @@ export default {
     }
     return {
       loginForm: {
-        username: '测试哈士奇',
+        username: '我是一只哈士奇',
         password: '123456'
       },
       loginRules: {
