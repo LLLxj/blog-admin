@@ -36,7 +36,7 @@
       </el-table-column>
       <el-table-column label="活动描述" prop="desc" header-align="center" align="center">
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="create_time" width="200" :formatter="dateFormatter">
+      <el-table-column label="创建时间" align="center" prop="createTime" width="200" :formatter="dateFormatter">
       </el-table-column>
       <el-table-column label="操作" width="250" align="center" header-align="center">
         <template slot-scope="scope">

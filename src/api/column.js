@@ -2,11 +2,11 @@ import request from '@/utils/request'
 
 const baseUrl = '/apiPro'
 
-class Article {
+class Column {
 
   static list(query) {
     return request({
-      url: `${baseUrl}/article/list`,
+      url: `${baseUrl}/column/list`,
       method: 'get',
       params: query
     })
@@ -14,14 +14,14 @@ class Article {
 
   static info(data) {
     return request({
-      url: `${baseUrl}/article/info/` + data,
+      url: `${baseUrl}/column/info/` + data,
       method: 'get',
     })
   }
 
   static save(data) {
     return request({
-      url: `${baseUrl}/article/save`,
+      url: `${baseUrl}/column/save`,
       method: 'post',
       data
     })
@@ -29,7 +29,7 @@ class Article {
 
   static update(data) {
     return request({
-      url: `${baseUrl}/article/update`,
+      url: `${baseUrl}/column/update`,
       method: 'put',
       data
     })
@@ -37,14 +37,14 @@ class Article {
 
   static delete(data) {
     return request({
-      url: `${baseUrl}/article/delete/` + data,
+      url: `${baseUrl}/column/delete/` + data,
       method: 'delete',
     })
   }
 }
 
 
-export default Article
+export default Column
 
 
 

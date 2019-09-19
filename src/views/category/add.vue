@@ -12,7 +12,7 @@
         </el-form-item>
 
         <el-form-item label="背景图" prop="background">
-          <el-upload class="upload-demo" v-model="dataForm.background" drag :action="url" multiple :on-success="getUpload">
+          <el-upload class="upload-demo" v-model="dataForm.background" drag :action="GLOBAL.UPLOAD_URL" multiple :on-success="getUpload">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
             <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { addCategory, checkCategoryName, categoryInfo, updateCategory } from '@/api/category'
+import Category from '@/api/category'
 import { quillEditor } from 'vue-quill-editor'
 
 export default {
@@ -56,7 +56,7 @@ export default {
   data() {
     var validateName = (rule, value, callback) => {
       if (value) {
-        checkCategoryName({name:value}).then(res => {
+        Category.checkName(value).then(res => {
           if(res.data && res.data.code === 0) {
             callback()
           } else {
@@ -100,7 +100,6 @@ export default {
   created() {
     // 判断是新增还是修改
     const rowData = this.$route.query.id || 0
-    this.url = this.$http.adornUrl(`/category/uploadCategoryBac`)
     if (rowData) {
       this.submitbtnStatus = false
       this.setData(rowData)
@@ -121,13 +120,16 @@ export default {
 
     },
     setData(data) {
-      categoryInfo(data).then(res => {
-        if(res.data && res.data.code === 0) {
-          this.dataForm = res.data.data
-          this.dataForm.resource = res.data.data.background
+      Category.info(data).then(({data}) => {
+        let {code, msg, result} = data
+        if(code === 0) {
+          this.dataForm = result
+          this.dataForm.resource = result.background
         } else {
-          this.$message.error(res.data.msg)
+          this.$message.error(msg)
         }
+      }).catch(err => {
+        console.log(err)
       })
     },
     handleChange (data) {
@@ -156,7 +158,7 @@ export default {
         console.log(this.dataForm)
         if (valid) {
           if (this.submitbtnStatus) {
-            addCategory({
+            Category.save({
               'name': this.dataForm.name,
               'order': this.dataForm.order,
               'background': this.dataForm.background
@@ -183,7 +185,7 @@ export default {
       })
     },
     updateForm () {
-      updateCategory({
+      Category.update({
         'id': this.dataForm.id,
         'name': this.dataForm.name,
         'order': this.dataForm.order,

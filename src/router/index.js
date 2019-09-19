@@ -43,166 +43,6 @@ export const constantRouterMap = [
 ]
 
 const asyncRouterMap = [
-  // {
-  //   path: '/git',
-  //   component: Layout,
-  //   redirect: 'noredirect', // 当设置 noredirect 的时候该路由在面包屑导航中不可被点击
-  //   name: 'Git',
-  //   meta: {
-  //     title: 'git仓库管理',
-  //     icon: 'GitHub',
-  //     roles: ['supadmin', 'admin']
-  //   },
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       name: 'gitList',
-  //       component: () => import('@/views/git/index'),
-  //       meta: { title: '仓库列表' }
-  //     },
-  //     {
-  //       path: 'add',
-  //       name: 'addGit',
-  //       component: () => import('@/views/git/add'),
-  //       meta: { title: '新增仓库' }
-  //     },
-  //     {
-  //       path: 'edit',
-  //       name: 'editGit',
-  //       hidden: true,
-  //       component: () => import('@/views/git/add'),
-  //       meta: { title: '编辑仓库' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/platform',
-  //   component: Layout,
-  //   redirect: 'noredirect', // 当设置 noredirect 的时候该路由在面包屑导航中不可被点击
-  //   name: 'Platform',
-  //   meta: {
-  //     title: '平台管理',
-  //     icon: 'platform',
-  //     roles: ['supadmin', 'admin']
-  //   },
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       name: 'platformList',
-  //       component: () => import('@/views/platform/index'),
-  //       meta: { title: '平台列表' }
-  //     },
-  //     {
-  //       path: 'add',
-  //       name: 'addPlatform',
-  //       component: () => import('@/views/platform/add'),
-  //       meta: { title: '新增平台' }
-  //     },
-  //     {
-  //       path: 'edit',
-  //       name: 'editPlatform',
-  //       hidden: true,
-  //       component: () => import('@/views/platform/add'),
-  //       meta: { title: '编辑平台' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/company',
-  //   component: Layout,
-  //   redirect: 'noredirect', // 当设置 noredirect 的时候该路由在面包屑导航中不可被点击
-  //   name: 'Company',
-  //   meta: {
-  //     title: '公司管理',
-  //     icon: 'company',
-  //     roles: ['supadmin', 'admin']
-  //   },
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       name: 'companyList',
-  //       component: () => import('@/views/company/index'),
-  //       meta: { title: '公司列表' }
-  //     },
-  //     {
-  //       path: 'add',
-  //       name: 'addCompany',
-  //       component: () => import('@/views/company/add'),
-  //       meta: { title: '新增公司' }
-  //     },
-  //     {
-  //       path: 'edit',
-  //       name: 'editCompany',
-  //       hidden: true,
-  //       component: () => import('@/views/company/add'),
-  //       meta: { title: '编辑公司' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/figure',
-  //   component: Layout,
-  //   redirect: 'noredirect', // 当设置 noredirect 的时候该路由在面包屑导航中不可被点击
-  //   name: 'Figure',
-  //   meta: {
-  //     title: '白皮书',
-  //     icon: 'figure',
-  //     roles: ['supadmin', 'admin']
-  //   },
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       name: 'figureList',
-  //       component: () => import('@/views/figure/index'),
-  //       meta: { title: '白皮书列表' }
-  //     },
-  //     {
-  //       path: 'add',
-  //       name: 'addFigure',
-  //       component: () => import('@/views/figure/add'),
-  //       meta: { title: '新增白皮书' }
-  //     },
-  //     {
-  //       path: 'edit',
-  //       name: 'editFigure',
-  //       hidden: true,
-  //       component: () => import('@/views/figure/add'),
-  //       meta: { title: '编辑白皮书' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/cms',
-  //   component: Layout,
-  //   redirect: 'noredirect', // 当设置 noredirect 的时候该路由在面包屑导航中不可被点击
-  //   name: 'CMS',
-  //   meta: {
-  //     title: 'CMS系统',
-  //     icon: 'cms',
-  //     roles: ['supadmin', 'admin']
-  //   },
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       name: 'cmsList',
-  //       component: () => import('@/views/cms/index'),
-  //       meta: { title: '发布列表' }
-  //     },
-  //     {
-  //       path: 'add',
-  //       name: 'addCms',
-  //       component: () => import('@/views/cms/add'),
-  //       meta: { title: '新增发布' }
-  //     },
-  //     {
-  //       path: 'edit',
-  //       name: 'editCms',
-  //       hidden: true,
-  //       component: () => import('@/views/cms/add'),
-  //       meta: { title: '编辑发布' }
-  //     }
-  //   ]
-  // },
   {
     path: '/user',
     component: Layout,
@@ -231,6 +71,37 @@ const asyncRouterMap = [
         hidden: true,
         component: () => import('@/views/user/add'),
         meta: { title: '编辑用户' }
+      }
+    ]
+  },
+  {
+    path: '/column',
+    component: Layout,
+    redirect: 'noredirect', // 当设置 noredirect 的时候该路由在面包屑导航中不可被点击
+    name: 'column',
+    meta: {
+      title: '栏目管理',
+      icon: 'cms',
+    },
+    children: [
+      {
+        path: 'list',
+        name: 'columnList',
+        component: () => import('@/views/column/index'),
+        meta: { title: '栏目列表' }
+      },
+      {
+        path: 'add',
+        name: 'addColumn',
+        component: () => import('@/views/column/add'),
+        meta: { title: '新增栏目' }
+      },
+      {
+        path: 'edit',
+        name: 'editColumn',
+        hidden: true,
+        component: () => import('@/views/column/add'),
+        meta: { title: '编辑栏目' }
       }
     ]
   },
@@ -266,53 +137,6 @@ const asyncRouterMap = [
       }
     ]
   },
-  // {
-  //   path: '/tags',
-  //   component: Layout,
-  //   redirect: 'noredirect', // 当设置 noredirect 的时候该路由在面包屑导航中不可被点击
-  //   name: 'Tags',
-  //   meta: {
-  //     title: '标签管理',
-  //     icon: 'tags',
-  //     roles: ['supadmin', 'admin']
-  //   },
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       name: 'tagsList',
-  //       component: () => import('@/views/tags/index'),
-  //       meta: { title: '标签列表' }
-  //     },
-  //     {
-  //       path: 'add',
-  //       name: 'addTags',
-  //       component: () => import('@/views/tags/add'),
-  //       meta: { title: '新增标签' }
-  //     },
-  //     {
-  //       path: 'edit',
-  //       name: 'editTags',
-  //       hidden: true,
-  //       component: () => import('@/views/tags/add'),
-  //       meta: { title: '编辑标签' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/form',
-  //   component: Layout,
-  //   meta: {
-  //     roles: ['supadmin', 'admin']
-  //   },
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'testForm',
-  //       component: () => import('@/views/form/index'),
-  //       meta: { title: '测试缓存tabs', icon: 'form' }
-  //     }
-  //   ]
-  // },
   {
     path: '/article',
     component: Layout,

@@ -31,20 +31,67 @@
       </el-form-item>
     </el-form>
     <el-table :data="list" v-loading.body="listLoading" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column header-align="center" align="center" type="index" label="NO" width="80" >
-        <!-- <template slot-scope="scope">
-          {{scope.row.id}}
-        </template> -->
+       <!--隐藏字段-->
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" class="demo-table-expand">
+            <el-form-item label="ID"><span>{{ props.row.aId }}</span></el-form-item>
+            <el-form-item label="栏目ID"><span>{{ props.row.cId }}</span></el-form-item>
+            <el-form-item label="内容"><span>{{ props.row.body }}</span></el-form-item>
+            <el-form-item label="创建时间">
+              <span> <i class="el-icon-time"></i><span style="margin-left: 10px">{{ props.row.createTime }}</span></span>
+            </el-form-item>
+          </el-form>
+        </template>
       </el-table-column>
-      
-      <!-- <el-table-column label="内容" prop="content" align="center" header-align="center">
-      </el-table-column> -->
-      <el-table-column label="分类" prop="name" header-align="center" align="center" width="150">
+      <!--展示的列-->
+      <el-table-column header-align="center" align="center" type="index" label="NO" width="80"/>
+      <el-table-column label="标题" prop="title" header-align="center" align="center" width="500">
+        <template slot-scope="scope">
+          <!-- <el-button type="text" @click.stop="handleEdit(scope.row)" >{{scope.row.title}}</el-button> -->
+          <div class="overLength" :title="scope.row.title" style="color:#409EFF" @click.stop="handleEdit(scope.row)">{{scope.row.title}}</div>
+        </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="create_time" width="200" :formatter="dateFormatter">
+      <!--<el-table-column label="栏目cId" prop="cId" header-align="center" align="center" width="150"/>-->
+      <el-table-column label="栏目名称" prop="cName" header-align="center" align="center"/>
+      <!--是否推荐（0:否，1:是）-->
+      <el-table-column label="推荐" prop="isHot" header-align="center" align="center" width="80" >
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.isHot === 0 ? 'success' : 'danger'" disable-transitions>{{scope.row.isHot===0?'正常':'推荐'}}</el-tag>
+        </template>
       </el-table-column>
-      <el-table-column label="标题" prop="title" header-align="center" align="center">
+      <!--是否热门（0:否，1:是）-->
+      <el-table-column label="热门" prop="isHeat" header-align="center" align="center" width="80">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.isHeat === 0 ? 'success' : 'danger'" disable-transitions>{{scope.row.isHeat===0?'正常':'热门'}}</el-tag>
+        </template>
       </el-table-column>
+      <!--是否头条（0:否，1:是）-->
+      <el-table-column label="头条" prop="isHead" header-align="center" align="center" width="80">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.isHead === 0 ? 'success' : 'danger'" disable-transitions>{{scope.row.isHead===0?'正常':'头条'}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="状态" prop="state" header-align="center" align="center" width="80">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.state === 0 ? 'info' : 'success'" disable-transitions>{{scope.row.state==0?'隐藏':'显示'}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="点击量" prop="clickNum" header-align="center" align="center" width="100"/>
+      <el-table-column label="排序序号" prop="sorting" header-align="center" align="center" width="80"/>
+      <el-table-column label="缩略图" prop="pic" header-align="center" align="center" width="150" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <!--单图-->
+          <!-- <img :src="GLOBAL.BASE_URL_HEAD + scope.row.pic" @click="imageClick(GLOBAL.BASE_URL_HEAD + scope.row.pic)" style="max-height: 130px;max-width: 130px" lazy/> -->
+          <img :src="scope.row.pic" @click="imageClick(scope.row.pic)" style="max-height: 50px;max-width: 50px" lazy/>
+        </template>
+      </el-table-column>
+      <!--<el-table-column label="创建时间" prop="createTime" width="200" header-align="center" align="center":formatter="dateFormatter">
+        <template slot-scope="scope">
+          <i class="el-icon-time"></i>
+          <span style="margin-left: 10px">{{ scope.row.createTime }}</span>
+        </template>
+      </el-table-column>-->
       <el-table-column label="操作" width="150" align="center" header-align="center">
         <template slot-scope="scope">
           <el-button size="mini" type="text" @click.stop="handleEdit(scope.row)">编辑</el-button>
@@ -69,7 +116,7 @@
 </template>
 
 <script>
-import { articleList, articleDelete } from '@/api/article'
+import Article from '@/api/article'
 import { dateSubstring } from '@/utils/index'
 // import selectCategory from '@/common-select/select-category'
 
@@ -100,23 +147,22 @@ export default {
     getDataList(param) {
       const postData = param || this.searchData
       this.listLoading = true
-      articleList(postData).then(res => {
-        if (res.data && res.data.code === 0) {
-          // 处理数据
+      Article.list(postData).then(({data}) => {
+        let {code, msg, result, totalNum} = data
+        if (code === 0) {
           this.listLoading = false
-          this.list = res.data.data
-          this.totalNum = res.data.totalNum
+          this.list = result
+          this.totalNum = totalNum
         } else {
           this.listLoading = false
           this.$message({
-            message: res.data.msg,
+            message: msg,
             type: 'error',
             duration: 1500
           })
         }
       }).catch(err => {
         this.listLoading = false
-        console.log(err)
         this.$message({
           message: '读取接口失败！',
           type: 'error',
@@ -129,7 +175,7 @@ export default {
       this.$router.push({
         name: 'editArticle',
         query: {
-          id: row.id
+          aId: row.aId
         }
       })
     },
@@ -149,7 +195,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        articleDelete(id).then(res => {
+        Article.delete(id).then(res => {
           if(res.data && res.data.code === 0){
             this.$message({
               message: '操作成功',

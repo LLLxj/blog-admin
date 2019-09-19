@@ -8,11 +8,11 @@
         </el-form-item>
 
         <el-form-item label="密码" prop="password">
-          <el-input type="password" :disabled="true" v-model="dataForm.password" placeholder="请输入密码"></el-input>
+          <el-input type="password" v-model="dataForm.password" placeholder="请输入密码"></el-input>
         </el-form-item>
 
         <el-form-item label="密码" prop="repas">
-          <el-input type="password" :disabled="true" v-model="dataForm.repas" placeholder="确认密码"></el-input>
+          <el-input type="password" v-model="dataForm.repas" placeholder="确认密码"></el-input>
         </el-form-item>
 
         <el-form-item label="手机号" prop="tel">
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { usersInfo, usersSave, usersUpdate } from '@/api/users'
+import Users from '@/api/users'
 
 export default {
   data() {
@@ -86,21 +86,20 @@ export default {
   },
   methods: {
     setData(data) {
-      usersInfo(data).then(res => {
-        if(res.data && res.data.code === 0) {
-          console.log(res)
-          this.dataForm = res.data.data
+      Users.info(data).then(({data}) => {
+        let {code, msg, result} = data
+        if(code === 0) {
+          this.dataForm = result
         } else {
-          this.$message.error(res.data.msg)
+          this.$message.error(msg)
         }
       })
     },
     submitForm () {
       this.$refs['dataForm'].validate((valid) => {
-        console.log(this.dataForm)
         if (valid) {
           if (this.submitbtnStatus) {
-            usersSave(this.dataForm).then(res => {
+            Users.save(this.dataForm).then(res => {
               if(res.data && res.data.code === 0) {
                 this.$message({
                   message: '操作成功',
@@ -123,7 +122,7 @@ export default {
       })
     },
     updateForm () {
-      usersUpdate(this.dataForm).then(res => {
+      Users.update(this.dataForm).then(res => {
         if(res.data && res.data.code === 0) {
           this.$message({
             message: '更新成功',

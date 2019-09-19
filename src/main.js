@@ -27,6 +27,12 @@ Vue.config.productionTip = false
 Vue.prototype.$http = httpRequest
 // 保存整站vuex本地储存初始状态
 // window.SITE_CONFIG['storeState'] = cloneDeep(store.state)
+Vue.prototype.GLOBAL = {
+  // 'BASE_URL_HEAD': '/apiPro',
+  'BASE_URL_HEAD': process.env.NODE_ENV === 'development' ? '/apiPro' : '',
+  /** 单文件上传地址 */
+  'UPLOAD_URL': '/apiPro/category/uploadCategoryBac'
+}
 
 new Vue({
   el: '#app',

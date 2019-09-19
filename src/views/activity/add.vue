@@ -195,11 +195,11 @@ export default {
       switch(data){
         case 1:
           if(length === 0){
-            let content = {'index': 1,'type': 1,'state': 1,'sorting': 1, 'images':[{'index': 1,'src': 'http://localhost:5000/public/upload/12c97b640dcf565b06189c9b5b161a3c.png'}],}
+            let content = {'index': 1,'type': 1,'state': 1,'sorting': 1, 'images':[{'index': 1,'src': 'http://tg.heigrace.com/baidu/m/saishiban/images/shb/2.jpg'}],}
             this.columnList.push(content) 
           } else {
             console.log(this.columnList)
-            let content = {'index': length + 1,'type': 1,'state': 1,'sorting': 1, 'images':[{'index': 1,'src': 'http://localhost:5000/public/upload/12c97b640dcf565b06189c9b5b161a3c.png'}],}
+            let content = {'index': length + 1,'type': 1,'state': 1,'sorting': 1, 'images':[{'index': 1,'src': 'http://tg.heigrace.com/baidu/m/saishiban/images/shb/2.jpg'}],}
             this.columnList.push(content) 
           }
           break
@@ -221,13 +221,13 @@ export default {
         case 3:
           if(length === 0){
             let content = {'index': 1,'type': 3,'state': 1,'sorting': 1, 
-            'images':[{'index': 1,'src': 'http://localhost:5000/public/upload/12c97b640dcf565b06189c9b5b161a3c.png'},
-            {'index': 2,'src': 'http://localhost:5000/public/upload/12c97b640dcf565b06189c9b5b161a3c.png'}]}
+            'images':[{'index': 1,'src': 'http://tg.heigrace.com/baidu/m/saishiban/images/3.jpg'},
+            {'index': 2,'src': 'http://tg.heigrace.com/baidu/m/saishiban/images/4.jpg'}]}
             this.columnList.push(content) 
           } else {
             let content = {'index': length + 1,'type': 3,'state': 1,'sorting': 1, 
-            'images':[{'index': 1,'src': 'http://localhost:5000/public/upload/12c97b640dcf565b06189c9b5b161a3c.png'},
-            {'index': 2,'src': 'http://localhost:5000/public/upload/12c97b640dcf565b06189c9b5b161a3c.png'}]}
+            'images':[{'index': 1,'src': 'http://tg.heigrace.com/baidu/m/saishiban/images/3.jpg'},
+            {'index': 2,'src': 'http://tg.heigrace.com/baidu/m/saishiban/images/4.jpg'}]}
             this.columnList.push(content) 
           }
           break

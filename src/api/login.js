@@ -1,24 +1,32 @@
 import request from '@/utils/request'
 
-export function login(data) {
-  return request({
-    url: '/login',
-    method: 'post',
-    data
-  })
+const baseUrl = '/apiPro'
+
+class System {
+
+  static login (data) {
+    return request({
+      url: `${baseUrl}/sys/login`,
+      method: 'post',
+      data
+    })
+  }
+
+  static info (data) {
+    return request({
+      
+      url: `${baseUrl}/sys/info/` + data,
+      method: 'get',
+    })
+  }
+
+  static logout () {
+    return request({
+      url: `${baseUrl}/sys/logout`,
+      method: 'post',
+    })
+  }
+
 }
 
-export function getInfo(token) {
-  return request({
-    url: '/user/info',
-    method: 'get',
-    params: { token }
-  })
-}
-
-export function logout() {
-  return request({
-    url: '/logout',
-    method: 'post'
-  })
-}
+export default System

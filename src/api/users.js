@@ -1,39 +1,50 @@
 import request from '@/utils/request'
 
-export function usersList(query) {
-  return request({
-    url: '/users/list',
-    method: 'get',
+const baseUrl = '/apiPro'
+
+class Users {
+
+  static list (query) {
+    return request({
+      url: `${baseUrl}/users/list`,
+      method: 'get',
     params: query
-  })
+    })
+  }
+
+  static info (data) {
+    return request({
+      url: `${baseUrl}/users/info/` + data,
+      method: 'get',
+    })
+  }
+
+  static save (data) {
+    return request({
+      url: `${baseUrl}/users/save`,
+      method: 'post',
+      data
+    })
+  }
+  
+  static update (data) {
+    return request({
+      url: `${baseUrl}/users/update`,
+      method: 'put',
+      data
+    })
+  }
+
+  static delete (data) {
+    return request({
+      url: `${baseUrl}/users/delete/` + data,
+      method: 'delete',
+    })
+  }
 }
 
-export function usersInfo(data) {
-  return request({
-    url: '/users/info/' + data,
-    method: 'get',
-  })
-}
 
-export function usersSave(data) {
-  return request({
-    url: '/users/save',
-    method: 'post',
-    data
-  })
-}
+export default Users
 
-export function usersUpdate(data) {
-  return request({
-    url: '/users/update',
-    method: 'post',
-    data
-  })
-}
 
-export function usersDelete(data) {
-  return request({
-    url: '/users/delete/' + data,
-    method: 'get',
-  })
-}
+

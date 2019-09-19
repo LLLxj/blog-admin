@@ -9,8 +9,12 @@
     
 
     <el-dropdown class="avatar-container" trigger="click">
+      <!-- <div class="avatar-wrapper">
+        <img class="user-avatar" :src="perSrc">
+        <i class="el-icon-caret-bottom"></i>
+      </div> -->
       <div class="avatar-wrapper">
-        <img class="user-avatar" :src="avatar+'?imageView2/1/w/80/h/80'">
+        <div class="user-name">{{name}}</div>
         <i class="el-icon-caret-bottom"></i>
       </div>
       <el-dropdown-menu class="user-dropdown" slot="dropdown">
@@ -34,14 +38,15 @@ import SizeSelect from '@/components/SizeSelect'
 import Breadcrumb from '@/components/Breadcrumb'
 import screenfull from 'screenfull'
 import Hamburger from '@/components/Hamburger'
-import { logout } from '@/api/login'
+import System from '@/api/login'
 import { clearLoginInfo } from '@/utils/index'
 import { removeToken } from '@/utils/auth'
 
 export default {
   data () {
     return {
-      isFullscreen: false
+      isFullscreen: false,
+      perSrc: require("@/assets/person.gif")
     }
   },
   components: {
@@ -52,7 +57,8 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'name'
     ])
   },
    init() {
@@ -80,7 +86,7 @@ export default {
       // this.$store.dispatch('logout').then(() => {
       //   location.reload() // 为了重新实例化vue-router对象 避免bug
       // })
-      logout().then(res => {
+      System.logout().then(res => {
         if(res.data && res.data.code === 0) {
           removeToken()
           this.$router.push({ path: '/login' })
@@ -121,10 +127,15 @@ export default {
         height: 40px;
         border-radius: 10px;
       }
+      .user-name {
+        height: 40px;
+        line-height:40px;
+        text-align: center;
+      }
       .el-icon-caret-bottom {
         position: absolute;
         right: -20px;
-        top: 25px;
+        top: 15px;
         font-size: 12px;
       }
     }

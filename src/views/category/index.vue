@@ -35,7 +35,7 @@
           <!-- <img src="{{scope.row.id}}" alt=""> -->
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="create_time" width="200" :formatter="dateFormatter">
+      <el-table-column label="创建时间" align="center" prop="createTime" width="200" :formatter="dateFormatter">
       </el-table-column>
       <el-table-column label="操作" width="150" header-align="center" align="center">
         <template slot-scope="scope">
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { categoryList, checkCategoryName, categoryDelete } from '@/api/category'
+import Category from '@/api/category'
 import { dateSubstring } from '@/utils/index'
 
 export default {
@@ -90,22 +90,22 @@ export default {
     getDataList(param) {
       const postData = param || this.searchData
       this.listLoading = true
-      categoryList(postData).then(res => {
-        if (res.data && res.data.code === 0) {
+      Category.list(postData).then(({data}) => {
+        let {code, msg, result, totalNum} = data
+        if (code === 0) {
           this.listLoading = false
-          this.list = res.data.data
-          this.totalNum = res.data.totalNum
+          this.list = result
+          this.totalNum = totalNum
         } else {
           this.listLoading = false
           this.$message({
-            message: res.data.status.Msg,
+            message: msg,
             type: 'error',
             duration: 1500
           })
         }
       }).catch(err => {
         this.listLoading = false
-        console.log(err)
         this.$message({
           message: '读取接口失败！',
           type: 'error',
@@ -137,7 +137,8 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          categoryDelete(row.id).then(res => {
+          Category.delete(row.id).then(res => {
+            console.log(res)
             if(res.data && res.data.code === 0){
               this.$message({
                 message: '操作成功',
@@ -169,13 +170,11 @@ export default {
     handleSizeChange(row) {
     // 每页显示数改变
       this.searchData.pageSize = row
-      
       this.getDataList(this.searchData)
     },
     handleCurrentChange(row) {
     // 当前页改变
       this.searchData.currentPage = row
-      console.log(this.searchData)
       this.getDataList(this.searchData)
     },
     // 分页end

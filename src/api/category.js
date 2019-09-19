@@ -1,57 +1,58 @@
 import request from '@/utils/request'
 
-export function categoryList(query) {
-  return request({
-    url: '/category/list',
-    method: 'get',
-    params: query
-  })
+const baseUrl = '/apiPro'
+
+class Category {
+
+  static list (query) {
+    return request({
+      url: `${baseUrl}/category/list`,
+      method: 'get',
+      params: query
+    })
+  }
+
+  static info (data) {
+    return request({
+      url: `${baseUrl}/category/info/` + data,
+      method: 'get',
+    })
+  }
+
+  static checkName (name) {
+    return request({
+      url: `${baseUrl}/category/checkName`,
+      method: 'get',
+      params: { name }
+    })
+  }
+
+  static save (data) {
+    return request({
+      url: `${baseUrl}/category/save`,
+      method: 'post',
+      data
+    })
+  }
+  
+  static update (data) {
+    return request({
+      url: `${baseUrl}/category/update`,
+      method: 'put',
+      data
+    })
+  }
+
+  static delete (data) {
+    return request({
+      url: `${baseUrl}/category/delete/` + data,
+      method: 'delete',
+    })
+  }
 }
 
-export function categoryInfo(data) {
-  return request({
-    url: '/category/info/' + data,
-    method: 'get',
-  })
-}
 
-export function addCategory(data) {
-  return request({
-    url: '/category/save',
-    method: 'post',
-    data
-  })
-}
-
-export function checkCategoryName(query) {
-  return request({
-    url: '/category/checkName',
-    method: 'get',
-    params: query
-  })
-}
+export default Category
 
 
-export function uploadBacGround(query) {
-  return request({
-    url: '/uploadCategoryBac',
-    method: 'post',
-    params: query
-  })
-}
 
-
-export function updateCategory(data) {
-  return request({
-    url: '/category/update',
-    method: 'post',
-    data
-  })
-}
-
-export function categoryDelete(data) {
-  return request({
-    url: '/category/delete/' + data,
-    method: 'get',
-  })
-}

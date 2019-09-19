@@ -9,7 +9,7 @@
 
 <script>
 
-  import { categoryList } from '@/api/category'
+  import Category from '@/api/category'
 
   export default {
     props: {
@@ -50,13 +50,14 @@
       },
       getDataList () {
         this.dataListLoading = true
-        categoryList().then(res => {
-          if(res.data && res.data.code === 0){
-            this.dataList = res.data.data
+        Category.list().then(({data}) => {
+          let {code, msg, result} = data
+          if(code === 0){
+            this.dataList = result
           }else{
             this.dataList = []
+            this.$message.error(msg)
           }
-            
           this.dataListLoading = false
         })
       },

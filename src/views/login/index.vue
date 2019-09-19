@@ -31,7 +31,7 @@
 
 <script>
 import { isvalidUsername } from '@/utils/validate'
-import { login } from '@/api/login'
+import System from '@/api/login'
 import { setToken } from '@/utils/auth'
 
 export default {
@@ -53,7 +53,7 @@ export default {
     }
     return {
       loginForm: {
-        username: '我是一只哈士奇',
+        username: '哈士奇',
         password: '123456'
       },
       loginRules: {
@@ -80,22 +80,17 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          login(this.loginForm).then(res => {
-            if(res.data && res.data.code === 0) {
-              setToken(res.data.token)
-              this.loading = false
-              this.$message({
-                message: res.data.msg,
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  this.$router.push({ path: '/' })
-                }
-              })
+          System.login(this.loginForm).then(({data}) => {
+            let {code, msg, result} = data
+            if(code === 200) {
+              this.$message.success(msg)
+              setToken(result)
+              this.$router.push({ path: this.redirect || '/' })
+              this.$store.dispatch('Login', result)
             } else {
               this.loading = false
               this.$message({
-                message: res.data.msg,
+                message: msg,
                 type: 'error',
                 duration: 1500,
               })

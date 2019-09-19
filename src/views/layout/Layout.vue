@@ -13,6 +13,8 @@
 <script>
 import { Navbar, Sidebar, AppMain, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
+import { getToken, setToken, removeToken } from '@/utils/auth'
+import System from '@/api/login'
 
 export default {
   name: 'layout',
@@ -21,6 +23,9 @@ export default {
     Sidebar,
     AppMain,
     TagsView
+  },
+  mounted () {
+    this.getUserInfo()
   },
   mixins: [ResizeMixin],
   computed: {
@@ -41,7 +46,21 @@ export default {
   methods: {
     handleClickOutside() {
       this.$store.dispatch('CloseSideBar', { withoutAnimation: false })
-    }
+    },
+    getUserInfo () {
+      let token = getToken()
+      if(token !== undefined){
+        System.info(token).then(({data}) => {
+          let {code, msg, result} = data
+          if (code === 0) {
+            this.$store.dispatch('GetInfo', result.username)
+          } else {
+            this.$message.error(msg)
+          }
+        })
+      }
+      
+    },
   }
 }
 </script>

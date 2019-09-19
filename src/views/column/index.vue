@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
     <el-form :inline="true" :model="searchData" @keyup.enter.native="getDataList()">
-      <el-form-item label="用户名">
-        <el-input v-model="searchData.username" placeholder="请输入用户名" clearable></el-input>
+      <el-form-item label="栏目名称">
+        <el-input v-model="searchData.cName" placeholder="请输入栏目名称" clearable></el-input>
       </el-form-item>
-      <el-form-item label="手机号">
-        <el-input v-model="searchData.tel" placeholder="请输入手机号" clearable></el-input>
+      <el-form-item label="url">
+        <el-input v-model="searchData.url" placeholder="请输入栏目拼音url" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
@@ -15,20 +15,52 @@
     </el-form>
     <el-table :data="list" v-loading.body="listLoading" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column header-align="center" align="center" type="index" label="NO" width="80" >
-        <!-- <template slot-scope="scope">
-          {{scope.row.id}}
-        </template> -->
       </el-table-column>
-      <el-table-column label="用户名" prop="username" header-align="center" align="center" width="150">
+      <el-table-column label="栏目名称" prop="cName" align="center" header-align="center" width="100"/>
+      <el-table-column label="栏目url名称" prop="url" header-align="center" align="center" width="150">
+        <template slot-scope="scope">
+          <div class="overLength" :title="scope.row.url">{{scope.row.url}}</div>
+        </template>
       </el-table-column>
-      <el-table-column label="手机号" prop="tel" header-align="center" align="center">
+      <el-table-column label="栏目SEO标题" prop="title" header-align="center" align="center" width="150">
+         <template slot-scope="scope">
+          <div class="overLength" :title="scope.row.title">{{scope.row.title || '--'}}</div>
+        </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="200" :formatter="dateFormatter">
+      <el-table-column label="栏目SEO关键词" prop="keywords" header-align="center" align="center" width="150">
+         <template slot-scope="scope">
+          <div class="overLength" :title="scope.row.keywords">{{scope.row.keywords || '--'}}</div>
+        </template>
+      </el-table-column>
+      <el-table-column label="栏目SEO描述" prop="description" header-align="center" align="center" width="150">
+        <template slot-scope="scope">
+          <div class="overLength" :title="scope.row.description">{{scope.row.description || '--'}}</div>
+        </template>
+      </el-table-column>
+      <el-table-column label="父级栏目" prop="pName" header-align="center" align="center">
+        <template slot-scope="scope">
+          <div class="overLength" v-if="scope.row.pName == ''">顶级栏目</div>
+          <div class="overLength" v-else>{{scope.row.pName}}</div>
+        </template>
+      </el-table-column>
+      <el-table-column label="路径" prop="path" header-align="center" align="center">
+      </el-table-column>
+      <el-table-column label="栏目层级" prop="level" header-align="center" align="center">
+      </el-table-column>
+      <el-table-column label="栏目排序序号" prop="sorting" header-align="center" align="center">
+      </el-table-column>
+      <el-table-column label="栏目状态" prop="state" header-align="center" align="center">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.state === 0" type="info">隐藏</el-tag>
+          <el-tag v-else>显示</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="栏目创建时间" prop="createTime" header-align="center" align="center" :formatter="dateFormatter">
       </el-table-column>
       <el-table-column label="操作" width="150" align="center" header-align="center">
         <template slot-scope="scope">
           <el-button size="mini" type="text" @click.stop="handleEdit(scope.row)">编辑</el-button>
-          <el-button size="mini" type="text" @click.stop="handleDel(scope.row.id)">删除</el-button>
+          <el-button size="mini" type="text" @click.stop="handleDel(scope.row.cId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -49,19 +81,18 @@
 </template>
 
 <script>
-import Users from '@/api/users'
+import Column from '@/api/column'
 import { dateSubstring } from '@/utils/index'
-// import selectCategory from '@/common-select/select-category'
 
 export default {
   data() {
     return {
       list: [],
-      listLoading: false,
+      listLoading: true,
       // 搜索条件
       searchData: {
-        username: '',
-        tel: '',
+        cName: '', 
+        url: ''
       },
       //  分页参数
       pageSizes: [10, 20, 30, 40],
@@ -74,13 +105,13 @@ export default {
     this.getDataList()
   },
   components: {
-    // selectCategory
+
   },
   methods: {
     getDataList(param) {
       const postData = param || this.searchData
       this.listLoading = true
-      Users.list(postData).then(({data}) => {
+      Column.list(postData).then(({data}) => {
         let {code, msg, result, totalNum} = data
         if (code === 0) {
           // 处理数据
@@ -99,7 +130,7 @@ export default {
         this.listLoading = false
         console.log(err)
         this.$message({
-          message: '读取接口失败！',
+          message: err || '读取接口失败！',
           type: 'error',
           duration: 1500
         })
@@ -108,32 +139,34 @@ export default {
     // 编辑
     handleEdit(row) {
       this.$router.push({
-        name: 'editUser',
+        name: 'editColumn',
         query: {
-          id: row.id
+          data: row
         }
       })
     },
     // 新增
     addHandle() {
       this.$router.push({
-        name: 'addUser',
+        name: 'addColumn',
         query: {
-         
+
         }
       })
     },
     // 删除
     handleDel(id) {
+      let mythis = this
       this.$confirm(`确定删除?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        Users.delete(id).then(res => {
-          if(res.data && res.data.code === 0){
+        Column.delete(id).then(({data}) => {
+          let {code, msg} = data
+          if(code === 0){
             this.$message({
-              message: '操作成功',
+              message: msg,
               type: 'success',
               duration: 1500,
               onClose: () => {
@@ -141,10 +174,20 @@ export default {
               }
             })
           }else{
-            this.$message.error(res.data.msg)
+            this.$message.error(msg)
           }
         })
-      }).catch(() => {})
+      }).catch(err => {
+        console.log(err)
+        if (err.response) {
+          mythis.$message.error(err.response.data.msg);
+        } else if (err.request) {
+          // 发送请求但是没有响应返回
+          console.log(err.request);
+        } else {
+          console.log('Error', err.msg);
+        }
+      })
     },
     // 搜索
     search() {
@@ -154,8 +197,8 @@ export default {
     // 置空搜索
     resetSearch() {
       this.searchData = {
-        title: '',
-        content: ''
+        cName: '', 
+        url: ''
       }
       this.getDataList(this.searchData)
     },
@@ -167,7 +210,6 @@ export default {
     },
     handleCurrentChange(row) {
     // 当前页改变
-    console.log(row)
       this.searchData.currentPage = row
       this.getDataList(this.searchData)
     },
@@ -180,5 +222,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "src/styles/common.scss";
+.com_logo{
+  width:50px;
+  height:50px;
+}
+.overLength{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
 </style>
 
