@@ -14,42 +14,42 @@
       </el-form-item>
     </el-form>
     <el-table :data="list" v-loading.body="listLoading" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column header-align="center" align="center" type="index" label="NO" width="80" >
+      <el-table-column header-align="center" align="center" type="index" label="NO" width="60" >
       </el-table-column>
-      <el-table-column label="栏目名称" prop="cName" align="center" header-align="center" width="100"/>
-      <el-table-column label="栏目url名称" prop="url" header-align="center" align="center" width="150">
+      <el-table-column label="栏目名称" prop="cName" align="center" header-align="center" min-width="80"/>
+      <el-table-column label="栏目url名称" prop="url" header-align="center" align="center" min-width="80">
         <template slot-scope="scope">
           <div class="overLength" :title="scope.row.url">{{scope.row.url}}</div>
         </template>
       </el-table-column>
-      <el-table-column label="栏目SEO标题" prop="title" header-align="center" align="center" width="150">
+      <el-table-column label="栏目SEO标题" prop="title" header-align="center" align="center" min-width="120">
          <template slot-scope="scope">
           <div class="overLength" :title="scope.row.title">{{scope.row.title || '--'}}</div>
         </template>
       </el-table-column>
-      <el-table-column label="栏目SEO关键词" prop="keywords" header-align="center" align="center" width="150">
+      <el-table-column label="栏目SEO关键词" prop="keywords" header-align="center" align="center" min-width="120">
          <template slot-scope="scope">
           <div class="overLength" :title="scope.row.keywords">{{scope.row.keywords || '--'}}</div>
         </template>
       </el-table-column>
-      <el-table-column label="栏目SEO描述" prop="description" header-align="center" align="center" width="150">
+      <el-table-column label="栏目SEO描述" prop="description" header-align="center" align="center" min-width="120">
         <template slot-scope="scope">
           <div class="overLength" :title="scope.row.description">{{scope.row.description || '--'}}</div>
         </template>
       </el-table-column>
-      <el-table-column label="父级栏目" prop="pName" header-align="center" align="center">
+      <el-table-column label="父级栏目" prop="pName" header-align="center" align="center" min-width="80">
         <template slot-scope="scope">
           <div class="overLength" v-if="scope.row.pName == ''">顶级栏目</div>
           <div class="overLength" v-else>{{scope.row.pName}}</div>
         </template>
       </el-table-column>
-      <el-table-column label="路径" prop="path" header-align="center" align="center">
+      <el-table-column label="路径" prop="path" header-align="center" align="center" min-width="80">
       </el-table-column>
-      <el-table-column label="栏目层级" prop="level" header-align="center" align="center">
+      <el-table-column label="栏目层级" prop="level" header-align="center" align="center" min-width="80">
       </el-table-column>
-      <el-table-column label="栏目排序序号" prop="sorting" header-align="center" align="center">
+      <el-table-column label="栏目排序序号" prop="sorting" header-align="center" align="center" min-width="80">
       </el-table-column>
-      <el-table-column label="栏目状态" prop="state" header-align="center" align="center">
+      <el-table-column label="栏目状态" prop="state" header-align="center" align="center" min-width="80">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.state === 0" type="info">隐藏</el-tag>
           <el-tag v-else>显示</el-tag>
