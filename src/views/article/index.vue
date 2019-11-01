@@ -30,9 +30,9 @@
         <el-button type="primary" @click="addHandle()">新增</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="list" v-loading.body="listLoading" element-loading-text="Loading" border fit highlight-current-row>
+    <el-table :data="list" v-loading.body="listLoading" element-loading-text="Loading" border stripe highlight-current-row>
        <!--隐藏字段-->
-      <el-table-column type="expand">
+      <el-table-column type="expand" fixed>
         <template slot-scope="props">
           <el-form label-position="left" class="demo-table-expand">
             <el-form-item label="ID"><span>{{ props.row.aId }}</span></el-form-item>
@@ -45,7 +45,7 @@
         </template>
       </el-table-column>
       <!--展示的列-->
-      <el-table-column header-align="center" align="center" type="index" label="NO" width="80"/>
+      <el-table-column header-align="center" align="center" type="index" label="NO" width="80" fixed/>
       <el-table-column label="标题" prop="title" header-align="center" align="center" width="500">
         <template slot-scope="scope">
           <!-- <el-button type="text" @click.stop="handleEdit(scope.row)" >{{scope.row.title}}</el-button> -->
@@ -92,7 +92,7 @@
           <span style="margin-left: 10px">{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>-->
-      <el-table-column label="操作" width="150" align="center" header-align="center">
+      <el-table-column label="操作" width="150" align="center" header-align="center" fixed="right">
         <template slot-scope="scope">
           <el-button size="mini" type="text" @click.stop="handleEdit(scope.row)">编辑</el-button>
           <el-button size="mini" type="text" @click.stop="handleDel(scope.row.id)">删除</el-button>
