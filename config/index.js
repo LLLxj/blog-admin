@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2019-09-24 10:11:47
+ * @LastEditTime: 2019-11-20 17:03:57
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /blog-admin/config/index.js
+ */
 'use strict'
 // Template version: 1.2.6
 // see http://vuejs-templates.github.io/webpack for documentation.
@@ -13,7 +21,8 @@ module.exports = {
     proxyTable: {
       '/apiPro': {
         // target: 'http://192.168.1.137:1314/',
-        target: 'http://192.168.2.141:6364/',
+        // target: 'http://192.168.2.58:6364/',
+        target: 'http://112.74.162.61:6364/',
         changeOrigin: true,
         pathRewrite: {
           '^/apiPro': '/'
