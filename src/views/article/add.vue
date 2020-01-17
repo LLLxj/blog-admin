@@ -242,16 +242,6 @@ export default {
       }
     };
   },
-  watch:{
- 'dataForm.body': {
-      handler(newName, oldName) {
-        console.log(newName);
-        console.log(oldName)
-      },
-      deep: true,
-      immediate: true
-    }
-  },
   components: {
     quillEditor,
     parentColomn,

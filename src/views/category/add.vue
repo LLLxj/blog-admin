@@ -133,17 +133,17 @@ export default {
       })
     },
     handleChange (data) {
-      console.log(data)
+      // console.log(data)
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      // console.log(file, fileList);
     },
     handlePreview(file) {
-      console.log(file);
+      // console.log(file); 
     },
     // 上传照片
     getUpload (res) {
-      console.log(res.data.resource)
+      // console.log(res.data.resource)
       this.dataForm.background = res.data.resource
       this.dataForm.resource = res.data.resource
     },
@@ -155,7 +155,6 @@ export default {
     },
     submitForm () {
       this.$refs['dataForm'].validate((valid) => {
-        console.log(this.dataForm)
         if (valid) {
           if (this.submitbtnStatus) {
             Category.save({
