@@ -238,7 +238,7 @@ export default {
         // url: [{ required: true, message: 'URL不能为空！', trigger: 'blur' }],
         // keywords: [{ required: true, message: 'SEO关键词不能为空！', trigger: 'blur' }],
         // description: [{ required: true, message: 'SEO描述不能为空！', trigger: 'blur' }],
-        cId: [{ required: true, message: "栏目Id不能为空！", trigger: "blur" }]
+        cId: [{ required: true, message: "栏目Id不能为空！", trigger: "blur", type: 'number' }]
       }
     };
   },
