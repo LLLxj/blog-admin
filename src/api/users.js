@@ -3,31 +3,30 @@ import request from '@/utils/request'
 const baseUrl = '/apiPro'
 
 class Users {
-
-  static list (query) {
+  static list(query) {
     return request({
       url: `${baseUrl}/users/list`,
       method: 'get',
-    params: query
+      params: query
     })
   }
 
-  static info (data) {
+  static info(data) {
     return request({
       url: `${baseUrl}/users/info/` + data,
-      method: 'get',
+      method: 'get'
     })
   }
 
-  static save (data) {
+  static save(data) {
     return request({
       url: `${baseUrl}/users/save`,
       method: 'post',
       data
     })
   }
-  
-  static update (data) {
+
+  static update(data) {
     return request({
       url: `${baseUrl}/users/update`,
       method: 'put',
@@ -35,16 +34,13 @@ class Users {
     })
   }
 
-  static delete (data) {
+  static delete(data) {
     return request({
       url: `${baseUrl}/users/delete/` + data,
-      method: 'delete',
+      method: 'delete'
     })
   }
 }
 
-
 export default Users
-
-
 

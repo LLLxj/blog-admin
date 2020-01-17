@@ -3,7 +3,6 @@ import request from '@/utils/request'
 const baseUrl = '/apiPro'
 
 class Article {
-
   static list(query) {
     return request({
       url: `${baseUrl}/article/list`,
@@ -15,7 +14,7 @@ class Article {
   static info(data) {
     return request({
       url: `${baseUrl}/article/info/` + data,
-      method: 'get',
+      method: 'get'
     })
   }
 
@@ -38,13 +37,10 @@ class Article {
   static delete(data) {
     return request({
       url: `${baseUrl}/article/delete/` + data,
-      method: 'delete',
+      method: 'delete'
     })
   }
 }
 
-
 export default Article
-
-
 

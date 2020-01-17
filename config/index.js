@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2019-09-24 10:11:47
- * @LastEditTime: 2019-11-27 10:06:57
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-31 15:39:09
+ * @LastEditors  : Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /blog-admin/config/index.js
  */
@@ -21,8 +21,8 @@ module.exports = {
     proxyTable: {
       '/apiPro': {
         // target: 'http://192.168.1.137:1314/',
-        // target: 'http://192.168.2.15:6364/',
-        target: 'http://112.74.162.61:6364/',
+        target: 'http://192.168.2.88:6364/',
+        // target: 'http://112.74.162.61:6364/',
         changeOrigin: true,
         pathRewrite: {
           '^/apiPro': '/'
@@ -32,8 +32,8 @@ module.exports = {
 
     // Various Dev Server settings
     // host: 'http://112.74.162.61',
-    // host: 'localhost', // can be overwritten by process.env.HOST
-    host: 'http://112.74.162.61', // can be overwritten by process.env.HOST
+    host: 'localhost', // can be overwritten by process.env.HOST
+    // host: 'http://112.74.162.61', // can be overwritten by process.env.HOST
     port: 8086, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,

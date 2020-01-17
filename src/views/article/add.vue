@@ -158,13 +158,15 @@
         <el-row :gutter="20">
           <el-col :span="18">
             <el-form-item label="内容" prop="body">
-              <quill-editor
+              <!-- <quill-editor
                 v-model="dataForm.body"
                 ref="myQuillEditor"
                 class="editer"
                 :options="editorOption"
                 @ready="onEditorReady($event)"
-              ></quill-editor>
+              ></quill-editor> -->
+              <Tinymce ref="editor" v-model="dataForm.body" :height="400" />
+              <!-- <Ueditor @ready="editorReady" ref="ue" :value="dataForm.body" :ueditorConfig="config" style="width:100%;"/> -->
             </el-form-item>
           </el-col>
         </el-row>
@@ -187,6 +189,8 @@ import Article from "@/api/article";
 import { quillEditor } from "vue-quill-editor";
 import parentColomn from "@/common-select/select-parent-column";
 import categorySelect from "@/common-select/select-category";
+import Ueditor from '@/components/Ueditor'
+import Tinymce from '@/components/Tinymce'
 
 export default {
   name: "article-add",
@@ -238,10 +242,22 @@ export default {
       }
     };
   },
+  watch:{
+ 'dataForm.body': {
+      handler(newName, oldName) {
+        console.log(newName);
+        console.log(oldName)
+      },
+      deep: true,
+      immediate: true
+    }
+  },
   components: {
     quillEditor,
     parentColomn,
-    categorySelect
+    categorySelect,
+    Ueditor,
+    Tinymce
   },
   created() {
     // 判断是新增还是修改
@@ -306,6 +322,13 @@ export default {
       str = str.replace(/&gt;/g, ">");
       return str;
     },
+    editorReady(instance) {
+        instance.setContent(this.dataForm.body)
+        // 下面代码存在BUG 编辑器光标每次编辑后自动跑到最前面
+        // instance.addListener('contentChange', () => {
+        //   this.dataForm.body = instance.getContent()
+        // })
+      },
     submitForm() {
       this.dataForm.body = this.escapeStringHTML(this.dataForm.body)
       this.$refs["dataForm"].validate(valid => {
@@ -377,6 +400,7 @@ export default {
     // 缩略图上传 成功回调
     picUploadSuccess(res, file) {
       if (res.data && res.code === 0) {
+        console.log(res.data)
         this.dataForm.pic = res.data.resource;
       } else {
         this.$message(res.data.msg);

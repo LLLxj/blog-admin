@@ -3,7 +3,6 @@ import request from '@/utils/request'
 const baseUrl = '/apiPro'
 
 class Column {
-
   static list(query) {
     return request({
       url: `${baseUrl}/column/list`,
@@ -15,7 +14,7 @@ class Column {
   static info(data) {
     return request({
       url: `${baseUrl}/column/info/` + data,
-      method: 'get',
+      method: 'get'
     })
   }
 
@@ -38,13 +37,10 @@ class Column {
   static delete(data) {
     return request({
       url: `${baseUrl}/column/delete/` + data,
-      method: 'delete',
+      method: 'delete'
     })
   }
 }
 
-
 export default Column
-
-
 

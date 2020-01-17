@@ -4,7 +4,7 @@ import request from '@/utils/request'
 export function reqDeptTree(data) {
   return request({
     url: '/sys/dept/tree',
-    method: 'get',
+    method: 'get'
   })
 }
 // 管理员加载  部门
@@ -23,8 +23,8 @@ export function reqDeptSelect(data) {
     params: data
   })
 }
- //   部门分页查询
- export function reqDeptListPage(data) {
+//   部门分页查询
+export function reqDeptListPage(data) {
   return request({
     url: '/sys/dept/listPage',
     method: 'get',
@@ -42,7 +42,7 @@ export function reqDeptSave(data) {
 export function reqDeptInfo(data) {
   return request({
     url: '/sys/dept/' + data,
-    method: 'get',
+    method: 'get'
   })
 }
 export function reqDeptUpdate(data) {
@@ -55,6 +55,6 @@ export function reqDeptUpdate(data) {
 export function reqDeptDelete(data) {
   return request({
     url: '/sys/dept/' + data,
-    method: 'post',
+    method: 'post'
   })
 }

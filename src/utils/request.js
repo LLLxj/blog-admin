@@ -18,7 +18,7 @@ service.interceptors.request.use(config => {
   // console.log(Vue.cookie.get('ba-token'))
   // config.headers['token'] = Vue.cookie.get('ba-token') // 请求头带上token
   // if (store.getters.token) {
-    config.headers['Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+  config.headers['Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   // }
   return config
 }, error => {
@@ -29,16 +29,16 @@ service.interceptors.request.use(config => {
 
 service.adornUrl = (actionName) => {
   // 非生产环境 && 开启代理, 接口前缀统一使用[/proxyApi/]前缀做代理拦截!
-  return  process.env.BASE_API + actionName
+  return process.env.BASE_API + actionName
 }
 
 // respone拦截器
 service.interceptors.response.use(
   response => response,
   response => {
-  /**
-  * code为非20000是抛错 可结合自己业务进行修改
-  */
+    /**
+    * code为非20000是抛错 可结合自己业务进行修改
+    */
     const res = response.data
     if (res.code !== 20000) {
       Message({

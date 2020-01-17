@@ -3,8 +3,7 @@ import request from '@/utils/request'
 const baseUrl = '/apiPro'
 
 class System {
-
-  static login (data) {
+  static login(data) {
     return request({
       url: `${baseUrl}/sys/login`,
       method: 'post',
@@ -12,21 +11,19 @@ class System {
     })
   }
 
-  static info (data) {
+  static info(data) {
     return request({
-      
       url: `${baseUrl}/sys/info/` + data,
-      method: 'get',
+      method: 'get'
     })
   }
 
-  static logout () {
+  static logout() {
     return request({
       url: `${baseUrl}/sys/logout`,
-      method: 'post',
+      method: 'post'
     })
   }
-
 }
 
 export default System

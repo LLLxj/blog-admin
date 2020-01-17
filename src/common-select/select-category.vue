@@ -8,14 +8,13 @@
 </template>
 
 <script>
-
   import Category from '@/api/category'
 
   export default {
     props: {
       value: {
         type: [Number, String]
-      },// 接受外部v-model传入的值
+      }, // 接受外部v-model传入的值
       label: {
         type: [Number, String]
       },
@@ -23,48 +22,48 @@
         type: [Boolean]
       }// 接受外部v-model传入的值
     },
-    mounted () {
+    mounted() {
       this.getDataList()
     },
     computed: {
       currentValue: {
-        get: function () {
+        get: function() {
           return this.value // 将props中的value赋值给currentValue
         },
-        set: function (val) {
+        set: function(val) {
           this.$emit('input', val) // 通过$emit触发父组件
         }
       }
     },
-    data () {
+    data() {
       return {
         temp_clearable: this.clearable || false,
         dataListLoading: false,
         dataList: null,
-        temp_value: this.value,
+        temp_value: this.value
       }
     },
     methods: {
-      init () {
+      init() {
         this.getDataList()
       },
-      getDataList () {
+      getDataList() {
         this.dataListLoading = true
-        Category.list().then(({data}) => {
-          let {code, msg, result} = data
-          if(code === 0){
+        Category.list().then(({ data }) => {
+          const { code, msg, result } = data
+          if (code === 0) {
             this.dataList = result
-          }else{
+          } else {
             this.dataList = []
             this.$message.error(msg)
           }
           this.dataListLoading = false
         })
       },
-      selectChange (val) {
+      selectChange(val) {
         // console.log(val)
-        this.$emit('changePayment',val)
-      }  
+        this.$emit('changePayment', val)
+      }
     }
 
   }

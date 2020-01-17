@@ -1,6 +1,9 @@
 <template>
-  <div class="app-wrapper" :class="classObj">
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"></div>
+  <div class="app-wrapper"
+       :class="classObj">
+    <div v-if="device==='mobile'&&sidebar.opened"
+         class="drawer-bg"
+         @click="handleClickOutside"></div>
     <sidebar class="sidebar-container"></sidebar>
     <div class="main-container">
       <navbar></navbar>
@@ -13,7 +16,7 @@
 <script>
 import { Navbar, Sidebar, AppMain, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken } from '@/utils/auth'
 import System from '@/api/login'
 
 export default {
@@ -24,7 +27,7 @@ export default {
     AppMain,
     TagsView
   },
-  mounted () {
+  mounted() {
     this.getUserInfo()
   },
   mixins: [ResizeMixin],
@@ -47,11 +50,11 @@ export default {
     handleClickOutside() {
       this.$store.dispatch('CloseSideBar', { withoutAnimation: false })
     },
-    getUserInfo () {
-      let token = getToken()
-      if(token !== undefined){
-        System.info(token).then(({data}) => {
-          let {code, msg, result} = data
+    getUserInfo() {
+      const token = getToken()
+      if (token !== undefined) {
+        System.info(token).then(({ data }) => {
+          const { code, msg, result } = data
           if (code === 0) {
             this.$store.dispatch('GetInfo', result.username)
           } else {
@@ -59,27 +62,26 @@ export default {
           }
         })
       }
-      
-    },
+    }
   }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/mixin.scss";
-  .app-wrapper {
-    @include clearfix;
-    position: relative;
-    height: 100%;
-    width: 100%;
-  }
-  .drawer-bg {
-    background: #000;
-    opacity: 0.3;
-    width: 100%;
-    top: 0;
-    height: 100%;
-    position: absolute;
-    z-index: 999;
-  }
+@import "src/styles/mixin.scss";
+.app-wrapper {
+  @include clearfix;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+.drawer-bg {
+  background: #000;
+  opacity: 0.3;
+  width: 100%;
+  top: 0;
+  height: 100%;
+  position: absolute;
+  z-index: 999;
+}
 </style>

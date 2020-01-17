@@ -3,8 +3,7 @@ import request from '@/utils/request'
 const baseUrl = '/apiPro'
 
 class Category {
-
-  static list (query) {
+  static list(query) {
     return request({
       url: `${baseUrl}/category/list`,
       method: 'get',
@@ -12,14 +11,14 @@ class Category {
     })
   }
 
-  static info (data) {
+  static info(data) {
     return request({
       url: `${baseUrl}/category/info/` + data,
-      method: 'get',
+      method: 'get'
     })
   }
 
-  static checkName (name) {
+  static checkName(name) {
     return request({
       url: `${baseUrl}/category/checkName`,
       method: 'get',
@@ -27,15 +26,15 @@ class Category {
     })
   }
 
-  static save (data) {
+  static save(data) {
     return request({
       url: `${baseUrl}/category/save`,
       method: 'post',
       data
     })
   }
-  
-  static update (data) {
+
+  static update(data) {
     return request({
       url: `${baseUrl}/category/update`,
       method: 'put',
@@ -43,16 +42,13 @@ class Category {
     })
   }
 
-  static delete (data) {
+  static delete(data) {
     return request({
       url: `${baseUrl}/category/delete/` + data,
-      method: 'delete',
+      method: 'delete'
     })
   }
 }
 
-
 export default Category
-
-
 
