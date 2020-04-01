@@ -58,6 +58,15 @@
         </el-row>
 
         <el-row>
+           <!--是否头条(1是，0否)，首页尾部三个图文下方文章-->
+          <el-col :span="6">
+            <el-form-item label="介绍" prop="isDes">
+              <el-radio-group v-model="dataForm.isDes">
+                <el-radio-button :label="0">正常</el-radio-button>
+                <el-radio-button :label="1">介绍</el-radio-button>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
           <el-col :span="6">
             <el-form-item label="状态" prop="state">
               <el-radio-group v-model="dataForm.state">
@@ -138,6 +147,7 @@
                 :action="GLOBAL.UPLOAD_URL"
                 multiple
                 :on-success="picUploadSuccess"
+                name="upfile"
               >
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text">
@@ -158,14 +168,9 @@
         <el-row :gutter="20">
           <el-col :span="18">
             <el-form-item label="内容" prop="body">
-              <!-- <quill-editor
-                v-model="dataForm.body"
-                ref="myQuillEditor"
-                class="editer"
-                :options="editorOption"
-                @ready="onEditorReady($event)"
-              ></quill-editor> -->
-              <Tinymce ref="editor" v-model="dataForm.body" :height="400" />
+              <quill-editor v-model="dataForm.body" ref="myQuillEditor" class="editer" :options="quillOption" @ready="onEditorReady($event)"
+              ></quill-editor>
+              <!-- <Tinymce ref="editor" v-model="dataForm.body" :height="400" /> -->
               <!-- <Ueditor @ready="editorReady" ref="ue" :value="dataForm.body" :ueditorConfig="config" style="width:100%;"/> -->
             </el-form-item>
           </el-col>
@@ -189,13 +194,16 @@ import Article from "@/api/article";
 import { quillEditor } from "vue-quill-editor";
 import parentColomn from "@/common-select/select-parent-column";
 import categorySelect from "@/common-select/select-category";
-import Ueditor from '@/components/Ueditor'
-import Tinymce from '@/components/Tinymce'
+// import Ueditor from '@/components/Ueditor'
+// import Tinymce from '@/components/Tinymce'
+import quillConfig from '@/configs/quill-config.js'
+
 
 export default {
   name: "article-add",
   data() {
     return {
+      quillOption: quillConfig,
       addVisible: true,
       defaultMSG: null,
       t1: 1,
@@ -213,6 +221,7 @@ export default {
         isHeat: 0,
         isHead: 0,
         sorting: 1,
+        isDes: 0,
         body: "",
         categoryId: ''
       },
@@ -232,6 +241,9 @@ export default {
         isHeat: [
           { required: true, message: "热门不能为空！", trigger: "blur" }
         ],
+        isDes: [
+          { required: true, message: "介绍不能为空！", trigger: "blur" }
+        ],
         isHead: [
           { required: true, message: "头条不能为空！", trigger: "blur" }
         ],
@@ -246,8 +258,8 @@ export default {
     quillEditor,
     parentColomn,
     categorySelect,
-    Ueditor,
-    Tinymce
+    // Ueditor,
+    // Tinymce
   },
   created() {
     // 判断是新增还是修改
@@ -273,25 +285,12 @@ export default {
   methods: {
     resetDataForm() {
       this.$refs["dataForm"].resetFields();
-      // this.dataForm = {
-      //   title: '',
-      //   // url: '',
-      //   keywords: '',
-      //   description: '',
-      //   cId: '',
-      //   pic: '',
-      //   state: 1,
-      //   isHot: 0,
-      //   sorting: 1,
-      //   body: ''
-      // }
     },
     setData(data) {
-      const mythis = this;
-      if (data !== 0) {
+      if (data) {
         Article.info(data).then(({data}) => {
           let {code, msg, result} = data
-          if (code === 0) {
+          if (code === 200) {
             this.dataForm = result
           } else {
             this.$message(msg);
@@ -325,10 +324,9 @@ export default {
         if (valid) {
           if (this.addVisible) {
             // 新增
-            console.log(this.dataForm)
             Article.save(this.dataForm)
               .then(res => {
-                if (res.data && res.data.code === 0) {
+                if (res.data && res.data.code === 200) {
                   this.$message({
                     message: "新增成功",
                     type: "success",
@@ -354,7 +352,7 @@ export default {
           } else {
             Article.update(this.dataForm)
               .then(res => {
-                if (res.data && res.data.code === 0) {
+                if (res.data && res.data.code === 200) {
                   this.$message({
                     message: "更新成功",
                     type: "success",

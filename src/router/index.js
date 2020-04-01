@@ -22,7 +22,7 @@ import Layout from '../views/layout/Layout'
   }
 **/
 export const constantRouterMap = [
-  { path: '/login', component: () => import('@/views/login/index'), hidden: true },
+  { path: '/login', name: 'login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
   {
     path: '',
@@ -43,6 +43,30 @@ export const constantRouterMap = [
 ]
 
 const asyncRouterMap = [
+  {
+    path: '/config',
+    component: Layout,
+    redirect: 'noredirect', // 当设置 noredirect 的时候该路由在面包屑导航中不可被点击
+    name: 'config',
+    meta: {
+      title: '站点设置',
+      icon: 'category',
+    },
+    children: [
+      {
+        path: 'list',
+        name: 'setting',
+        component: () => import('@/views/config/index'),
+        meta: { title: '站点设置' }
+      },
+      {
+        path: 'info',
+        name: 'info',
+        component: () => import('@/views/config/info'),
+        meta: { title: '个人中心' }
+      },
+    ]
+  },
   {
     path: '/user',
     component: Layout,

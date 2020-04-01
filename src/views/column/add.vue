@@ -112,17 +112,26 @@ export default {
       // }
     },
     setData (data) {
-      if(data !== 0){
-        this.dataForm.cId = data.cId
-        this.dataForm.cName = data.cName
-        this.dataForm.url = data.url
-        this.dataForm.title = data.title
-        this.dataForm.keywords = data.keywords
-        this.dataForm.description = data.description
-        this.dataForm.pId = data.pId
-        this.dataForm.state = data.state
-        this.dataForm.sorting = data.sorting
+      if (data) {
+        Column.info(data.cId).then(({data}) => {
+          let { code, msg, result } = data
+          if (code && code == 200) {
+            this.dataForm = result
+          }
+        })
       }
+      // console.log(data)
+      // if(data !== 0){
+      //   this.dataForm.cId = data.cId
+      //   this.dataForm.cName = data.cName
+      //   this.dataForm.url = data.url
+      //   this.dataForm.title = data.title
+      //   this.dataForm.keywords = data.keywords
+      //   this.dataForm.description = data.description
+      //   this.dataForm.pId = data.pId
+      //   this.dataForm.state = data.state
+      //   this.dataForm.sorting = data.sorting
+      // }
     },
     handleChange (data) {
       console.log(data)
@@ -151,7 +160,7 @@ export default {
           if(this.addVisible){
             Column.save(this.dataForm).then(({data}) => {
               let {code, msg} = data
-              if(code === 0){
+              if(code === 200){
                 this.$message({
                   message: msg,
                   type: 'success',
@@ -182,7 +191,7 @@ export default {
           } else {
             Column.update(this.dataForm).then(({data}) => {
               let {code, msg} = data
-              if(code === 0){
+              if(code === 200){
                 this.$message({
                   message: msg,
                   type: 'success',

@@ -35,7 +35,7 @@
           <!-- <img src="{{scope.row.id}}" alt=""> -->
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="200" :formatter="dateFormatter">
+      <el-table-column label="创建时间" align="center" prop="createdAt" width="200" :formatter="dateFormatter">
       </el-table-column>
       <el-table-column label="操作" width="150" header-align="center" align="center">
         <template slot-scope="scope">
@@ -92,7 +92,7 @@ export default {
       this.listLoading = true
       Category.list(postData).then(({data}) => {
         let {code, msg, result, totalNum} = data
-        if (code === 0) {
+        if (code === 200) {
           this.listLoading = false
           this.list = result
           this.totalNum = totalNum
@@ -133,26 +133,26 @@ export default {
     // 删除
     handleDel(row) {
       this.$confirm(`确定删除?`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          Category.delete(row.id).then(res => {
-            console.log(res)
-            if(res.data && res.data.code === 0){
-              this.$message({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  this.getDataList()
-                }
-              })
-            }else{
-              this.$message.error(res.data.msg)
-            }
-          })
-        }).catch(() => {})
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        Category.delete(row.id).then(res => {
+          console.log(res)
+          if(res.data && res.data.code === 200){
+            this.$message({
+              message: '操作成功',
+              type: 'success',
+              duration: 1500,
+              onClose: () => {
+                this.getDataList()
+              }
+            })
+          }else{
+            this.$message.error(res.data.msg)
+          }
+        })
+      }).catch(() => {})
     },
     // 搜索
     search() {

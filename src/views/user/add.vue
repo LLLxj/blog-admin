@@ -11,7 +11,7 @@
           <el-input type="password" v-model="dataForm.password" placeholder="请输入密码"></el-input>
         </el-form-item>
 
-        <el-form-item label="密码" prop="repas">
+        <el-form-item label="确认密码" prop="repas">
           <el-input type="password" v-model="dataForm.repas" placeholder="确认密码"></el-input>
         </el-form-item>
 
@@ -35,13 +35,20 @@ export default {
   data() {
     var validatePas = (rule, value, callback) => {
       if (value) {
+        if(value !== this.dataForm.repas){
+          callback(new Error('两次密码不一致'))
+        } else {
+          callback()
+        }
+      }
+    }
+    var validateRePas = (rule, value, callback) => {
+      if (value) {
         if(value !== this.dataForm.password){
           callback(new Error('两次密码不一致'))
         } else {
           callback()
         }
-      } else {
-        callback(new Error('手机号格式错误'))
       }
     }
     return {
@@ -62,10 +69,11 @@ export default {
         ],
         password: [
           { required: true, message: '密码不能为空', trigger: 'blur' },
+          { validator: validatePas, trigger: 'change'}
         ],
         repas: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { validator: validatePas, trigger: 'blur'}
+          { validator: validateRePas, trigger: 'change'}
         ]
       }
     }
@@ -122,26 +130,29 @@ export default {
       })
     },
     updateForm () {
-      Users.update(this.dataForm).then(res => {
-        if(res.data && res.data.code === 0) {
-          this.$message({
-            message: '更新成功',
-            type: 'success',
-            duration: 1500,
-            onClose: () => {
-              this.$router.push({
-                name: 'userList'
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          Users.update(this.dataForm).then(res => {
+            if(res.data && res.data.code === 0) {
+              this.$message({
+                message: '更新成功',
+                type: 'success',
+                duration: 1500,
+                onClose: () => {
+                  this.$router.push({
+                    name: 'userList'
+                  })
+                }
               })
+            } else {
+              this.$message.error(res.data.msg)
             }
+          }).catch(err => {
+            console.log(err)
           })
-        } else {
-          this.$message.error(res.data.msg)
         }
-      }).catch(err => {
-        console.log(err)
       })
     }
-    
   }
 }
 </script>

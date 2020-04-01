@@ -56,18 +56,18 @@
         this.dataListLoading = true
         Column.list().then(({ data }) => {
           let { code, msg, result } = data
-          if (code === 0) {
-            let dataArr = result
-            const tempDate = []
-            if (this.showHead) {
-              tempDate.push({ cId: 0, cName: '顶级栏目' })
-            }
-            if (dataArr) {
-              for (var i in dataArr) {
-                tempDate.push(dataArr[i])
-              }
-            }
-            this.dataList = tempDate
+          if (code && code == 200) {
+            // let dataArr = result
+            // const tempDate = []
+            // if (this.showHead) {
+            //   tempDate.push({ cId: 0, cName: '顶级栏目' })
+            // }
+            // if (dataArr) {
+            //   for (var i in dataArr) {
+            //     tempDate.push(dataArr[i])
+            //   }
+            // }
+            this.dataList = result
           } else {
             this.dataList = []
           }

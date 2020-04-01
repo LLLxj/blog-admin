@@ -82,7 +82,7 @@ export default {
       this.listLoading = true
       Users.list(postData).then(({data}) => {
         let {code, msg, result, totalNum} = data
-        if (code === 0) {
+        if (code === 200) {
           // 处理数据
           this.listLoading = false
           this.list = result

@@ -57,7 +57,7 @@ export default {
     var validateName = (rule, value, callback) => {
       if (value) {
         Category.checkName(value).then(res => {
-          if(res.data && res.data.code === 0) {
+          if(res.data && res.data.code === 200) {
             callback()
           } else {
             callback(new Error('该目录已存在'))
@@ -122,7 +122,7 @@ export default {
     setData(data) {
       Category.info(data).then(({data}) => {
         let {code, msg, result} = data
-        if(code === 0) {
+        if(code === 200) {
           this.dataForm = result
           this.dataForm.resource = result.background
         } else {
@@ -162,7 +162,7 @@ export default {
               'order': this.dataForm.order,
               'background': this.dataForm.background
             }).then(res => {
-              if(res.data && res.data.code === 0) {
+              if(res.data && res.data.code == 200) {
                 this.$message({
                   message: '操作成功',
                   type: 'success',
@@ -190,7 +190,7 @@ export default {
         'order': this.dataForm.order,
         'background': this.dataForm.background
       }).then(res => {
-        if(res.data && res.data.code === 0) {
+        if(res.data && res.data.code === 200) {
           this.$message({
             message: '更新成功',
             type: 'success',

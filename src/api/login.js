@@ -6,6 +6,7 @@ class System {
   static login(data) {
     return request({
       url: `${baseUrl}/sys/login`,
+      // url: `${baseUrl}/login`,
       method: 'post',
       data
     })

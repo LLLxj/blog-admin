@@ -55,7 +55,7 @@
           <el-tag v-else>显示</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="栏目创建时间" prop="createTime" header-align="center" align="center" :formatter="dateFormatter">
+      <el-table-column label="栏目创建时间" prop="createdAt" header-align="center" align="center" :formatter="dateFormatter">
       </el-table-column>
       <el-table-column label="操作" width="150" align="center" header-align="center">
         <template slot-scope="scope">
@@ -113,7 +113,7 @@ export default {
       this.listLoading = true
       Column.list(postData).then(({data}) => {
         let {code, msg, result, totalNum} = data
-        if (code === 0) {
+        if (code === 200) {
           // 处理数据
           this.listLoading = false
           this.list = result
@@ -164,7 +164,7 @@ export default {
       }).then(() => {
         Column.delete(id).then(({data}) => {
           let {code, msg} = data
-          if(code === 0){
+          if(code === 200){
             this.$message({
               message: msg,
               type: 'success',

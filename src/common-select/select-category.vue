@@ -51,7 +51,7 @@
         this.dataListLoading = true
         Category.list().then(({ data }) => {
           const { code, msg, result } = data
-          if (code === 0) {
+          if (code === 200) {
             this.dataList = result
           } else {
             this.dataList = []

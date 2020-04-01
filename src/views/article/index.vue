@@ -14,7 +14,7 @@
       <el-button @click.stop="resetSearch()" type="danger">置空条件</el-button>
     </div> -->
   
-    <el-form :inline="true" :model="searchData" @keyup.enter.native="getDataList()">
+    <el-form :inline="true" :model="searchData">
       <el-form-item label="标题">
         <el-input v-model="searchData.title" placeholder="请输入标题" clearable></el-input>
       </el-form-item>
@@ -39,7 +39,7 @@
             <el-form-item label="栏目ID"><span>{{ props.row.cId }}</span></el-form-item>
             <el-form-item label="内容"><span>{{ props.row.body }}</span></el-form-item>
             <el-form-item label="创建时间">
-              <span> <i class="el-icon-time"></i><span style="margin-left: 10px">{{ props.row.createTime }}</span></span>
+              <span> <i class="el-icon-time"></i><span style="margin-left: 10px">{{ props.row.createdAt }}</span></span>
             </el-form-item>
           </el-form>
         </template>
@@ -49,7 +49,8 @@
       <el-table-column label="标题" prop="title" header-align="center" align="center" width="500">
         <template slot-scope="scope">
           <!-- <el-button type="text" @click.stop="handleEdit(scope.row)" >{{scope.row.title}}</el-button> -->
-          <div class="overLength" :title="scope.row.title" style="color:#409EFF" @click.stop="handleEdit(scope.row)">{{scope.row.title}}</div>
+          <!-- <div class="overLength" :title="scope.row.title" style="color:#409EFF" @click.stop="handleEdit(scope.row)">{{scope.row.title}}</div> -->
+          <div class="overLength" :title="scope.row.title">{{scope.row.title}}</div>
         </template>
       </el-table-column>
       <!--<el-table-column label="栏目cId" prop="cId" header-align="center" align="center" width="150"/>-->
@@ -70,6 +71,11 @@
       <el-table-column label="头条" prop="isHead" header-align="center" align="center" width="80">
         <template slot-scope="scope">
           <el-tag :type="scope.row.isHead === 0 ? 'success' : 'danger'" disable-transitions>{{scope.row.isHead===0?'正常':'头条'}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="介绍" prop="isDes" header-align="center" align="center" width="80">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.isDes === 0 ? 'success' : 'danger'" disable-transitions>{{scope.row.isDes===0?'正常':'介绍'}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="状态" prop="state" header-align="center" align="center" width="80">
@@ -95,7 +101,7 @@
       <el-table-column label="操作" width="150" align="center" header-align="center" fixed="right">
         <template slot-scope="scope">
           <el-button size="mini" type="text" @click.stop="handleEdit(scope.row)">编辑</el-button>
-          <el-button size="mini" type="text" @click.stop="handleDel(scope.row.id)">删除</el-button>
+          <el-button size="mini" type="text" @click.stop="handleDel(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -149,7 +155,7 @@ export default {
       this.listLoading = true
       Article.list(postData).then(({data}) => {
         let {code, msg, result, totalNum} = data
-        if (code === 0) {
+        if (code === 200) {
           this.listLoading = false
           this.list = result
           this.totalNum = totalNum
@@ -189,14 +195,14 @@ export default {
       })
     },
     // 删除
-    handleDel(id) {
+    handleDel(data) {
       this.$confirm(`确定删除?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning' 
       }).then(() => {
-        Article.delete(id).then(res => {
-          if(res.data && res.data.code === 0){
+        Article.delete(data.aId).then(res => {
+          if(res.data && res.data.code === 200){
             this.$message({
               message: '操作成功',
               type: 'success',
