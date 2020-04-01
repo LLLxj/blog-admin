@@ -27,7 +27,7 @@ module.exports = {
         // target: 'http://192.168.2.88:6364/',
         // target: 'http://192.168.0.102:6364/',
         // target: 'http://118.190.26.73:8086/',
-        target: 'http://112.74.162.61:6364/',
+        target: 'http://www.admin.liuzijian.cn/',
         changeOrigin: true,
         pathRewrite: {
           '^/apiPro': '/'
