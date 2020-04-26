@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import { getToken, removeToken } from '@/utils/auth'
+import ElementUI from 'element-ui';
 
 const baseUrl = '/apiPro'
 var token = getToken()
@@ -28,7 +29,8 @@ const toolOptions = [
   [{'font': []}],
   [{'align': []}],
   ['clean'],
-  ['link', 'image', 'video']
+  ['link', 'image', 'video'],
+  ['sourceEditor'] 
 ];
 const handlers = {
   image: function image() {
@@ -88,6 +90,31 @@ const handlers = {
           this.container.appendChild(fileInput);
       }
       fileInput.click();
+  },
+  sourceEditor: function() {
+    const reg = /\<br\>/g,
+      container = this.container,
+      firstChild = container.nextElementSibling.firstChild;
+      console.log(firstChild)
+    if(!this.shadeBox){
+      let shadeBox = this.shadeBox = document.createElement('div');
+      shadeBox.style.cssText = 'position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); cursor:pointer';
+      container.style.position  = 'relative';
+      shadeBox.addEventListener('click',function(){
+
+        this.style.display = 'none';
+        firstChild.innerHTML = firstChild.innerText.trim();
+      },false);
+      container.appendChild(shadeBox);
+      let innerHTML = firstChild.innerHTML;
+      innerHTML = innerHTML.replace(reg,'');
+      firstChild.innerText = innerHTML;
+    }else {
+      let innerHTML = firstChild.innerHTML;
+      innerHTML = innerHTML.replace(reg,'');
+      firstChild.innerText = innerHTML;
+      this.shadeBox.style.display = 'block';
+    }
   }
 };
 
@@ -100,5 +127,31 @@ export default {
         handlers: handlers  // 事件重写
     }
 
+  },
+  initButton: function() {
+    const sourceEditorButton = document.querySelector('.ql-sourceEditor');
+    sourceEditorButton.style.cssText = "width:80px; border:1px solid #ccc; border-radius:5px;";
+    sourceEditorButton.innerText="源码编辑";
+  },
+  register(q){
+    //注册标签(因为在富文本编辑器中是没有div,table等标签的，需要自己去注册自己需要的标签)
+    class div extends q.import('blots/block/embed') {}
+    class table extends q.import('blots/block/embed') {}
+    class tr extends q.import('blots/block/embed') {}
+    class td extends q.import('blots/block/embed') {}
+    class section extends q.import('blots/block/embed') {}
+    class span extends q.import('blots/block/embed') {}
+    div.blotName =div.tagName='div';
+    table.blotName =table.tagName='table';
+    tr.blotName =tr.tagName='tr';
+    td.blotName =td.tagName='td';
+    td.blotName =td.tagName='section';
+    td.blotName =td.tagName='span';
+    q.register(div);
+    q.register(table);
+    q.register(tr);
+    q.register(td);
+    q.register(section);
+    q.register(span);
   }
 }
