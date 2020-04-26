@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+const baseUrl = '/apiPro'
 
 class Activity {
   /**
@@ -7,7 +8,7 @@ class Activity {
   // 加载消息中心列表数据
   static list(params) {
     return request({
-      url: '/activity/list',
+      url: `${baseUrl}/activity/list`,
       method: 'get',
       params: params
     })
@@ -15,7 +16,7 @@ class Activity {
 
   static info(data) {
     return request({
-      url: '/activity/info/' + data,
+      url: `${baseUrl}/activity/info/` + data,
       method: 'get'
     })
   }
@@ -25,7 +26,7 @@ class Activity {
   */
   static preView(data) {
     return request({
-      url: '/activity/preView/' + data,
+      url: `${baseUrl}/activity/preView/` + data,
       method: 'get'
     })
   }
@@ -35,7 +36,7 @@ class Activity {
   */
   static upload(data) {
     return request({
-      url: '/activity/upload/' + data,
+      url: `${baseUrl}/activity/upload/` + data,
       method: 'get'
     })
   }
@@ -45,7 +46,7 @@ class Activity {
   */
   static save(data) {
     return request({
-      url: '/activity/save',
+      url: `${baseUrl}/activity/save`,
       method: 'post',
       data
     })
@@ -56,7 +57,7 @@ class Activity {
   */
   static update(data) {
     return request({
-      url: '/activity/update',
+      url: `${baseUrl}/activity/update`,
       method: 'post',
       data
     })
