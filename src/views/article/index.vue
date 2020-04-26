@@ -55,6 +55,7 @@
       </el-table-column>
       <!--<el-table-column label="栏目cId" prop="cId" header-align="center" align="center" width="150"/>-->
       <el-table-column label="栏目名称" prop="cName" header-align="center" align="center"/>
+      <el-table-column label="url" prop="url" header-align="center" align="center"/>
       <!--是否推荐（0:否，1:是）-->
       <el-table-column label="推荐" prop="isHot" header-align="center" align="center" width="80" >
         <template slot-scope="scope">

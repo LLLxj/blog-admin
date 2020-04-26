@@ -191,7 +191,7 @@
 
 <script>
 import Article from "@/api/article";
-import { quillEditor } from "vue-quill-editor";
+import { quillEditor, Quill } from "vue-quill-editor";
 import parentColomn from "@/common-select/select-parent-column";
 import categorySelect from "@/common-select/select-category";
 // import Ueditor from '@/components/Ueditor'
@@ -260,6 +260,10 @@ export default {
     categorySelect,
     // Ueditor,
     // Tinymce
+  },
+  mounted(){
+    quillConfig.initButton()
+    quillConfig.register(Quill);
   },
   created() {
     // 判断是新增还是修改
