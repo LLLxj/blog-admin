@@ -24,7 +24,8 @@ module.exports = {
         // target: 'http://192.168.2.88:6364/',
         // target: 'http://192.168.0.102:6364/',
         // target: 'http://192.168.0.101:6364/',
-        // target: 'http://192.168.2.88:6364/',
+        // target: 'http://112.74.162.61:6364/',
+        // target: 'http://localhost:6364/',
         // target: 'http://192.168.0.102:6364/',
         // target: 'http://118.190.26.73:8086/',
         target: 'http://www.api.liuzijian.cn/',
@@ -36,8 +37,8 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    // host: 'localhost', // can be overwritten by process.env.HOST
-    host: '0.0.0.0', // can be overwritten by process.env.HOST
+    host: 'localhost', // can be overwritten by process.env.HOST
+    // host: '0.0.0.0', // can be overwritten by process.env.HOST
     // host: 'http://112.74.162.61', // can be overwritten by process.env.HOST
     port: 8086, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
