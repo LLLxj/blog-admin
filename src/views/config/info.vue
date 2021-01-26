@@ -169,21 +169,21 @@
       // 加载数据
       getInfo() {
         const _this = this
-        System.info().then(res => {
-          if (res.data && res.data.code === 0) {
-            this.dataForm = res.data.data[0]
-          } else {
-            this.$message(res.data.msg)
-          }
-        }).catch(err => {
-          if (err.response) {
-            _this.$message.error(err.response.data.msg)
-          } else if (err.request) {
-            console.log(err.request)
-          } else {
-            console.log('Error', err.msg)
-          }
-        })
+        // System.info().then(res => {
+        //   if (res.data && res.data.code === 0) {
+        //     this.dataForm = res.data.data[0]
+        //   } else {
+        //     this.$message(res.data.msg)
+        //   }
+        // }).catch(err => {
+        //   if (err.response) {
+        //     _this.$message.error(err.response.data.msg)
+        //   } else if (err.request) {
+        //     console.log(err.request)
+        //   } else {
+        //     console.log('Error', err.msg)
+        //   }
+        // })
       },
       // 上传logo
       logoUpload(res) {

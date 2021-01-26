@@ -42,7 +42,7 @@ const user = {
     },
 
     // 获取用户信息
-    GetInfo({ commit }, name ) {
+    GetInfo({ commit }, name) {
       return new Promise((resolve, reject) => {
         commit('SET_NAME', name)
         // System.info(state.token).then(response => {

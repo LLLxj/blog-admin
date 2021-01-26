@@ -222,7 +222,7 @@ const asyncRouterMap = [
         meta: { title: '编辑活动', icon: 'cms', }
       },
     ]
-  },
+  }
 ]
 // 临时处理路由权限 全部可以访问
 const allRoyterMap = constantRouterMap.concat(asyncRouterMap)
