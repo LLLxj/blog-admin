@@ -2,8 +2,8 @@
 FROM node:alpine
 
 # Install some dependencies
-COPY . /app
-WORKDIR /app/
+COPY . /
+WORKDIR /
 RUN npm config set sass_binary_site https://npm.taobao.org/mirrors/node-sass/
 # RUN npm i node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
 
